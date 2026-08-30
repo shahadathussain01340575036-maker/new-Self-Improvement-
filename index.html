@@ -4,7 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daily Dashboard — Discipline OS</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
@@ -14,6 +18,7 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen pb-24 selection:bg-emerald-500 selection:text-white">
 
+  <!-- TOP APP BAR -->
   <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3">
     <div class="max-w-4xl mx-auto flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -29,6 +34,7 @@
         </div>
       </div>
 
+      <!-- Backup & Restore -->
       <div class="flex items-center gap-2">
         <button onclick="exportData()" title="Backup Data" class="p-2 text-slate-400 hover:text-emerald-400 bg-slate-800/80 rounded-xl border border-slate-700/80 transition-all">
           <i data-lucide="download" class="w-4 h-4"></i>
@@ -41,8 +47,10 @@
     </div>
   </header>
 
+  <!-- MAIN CONTAINER -->
   <main class="max-w-4xl mx-auto px-4 py-6 space-y-6">
 
+    <!-- NAVIGATION TABS -->
     <div class="flex overflow-x-auto gap-2 pb-2 custom-scrollbar border-b border-slate-800">
       <button onclick="switchTab('dashboard')" class="tab-btn active-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" data-tab="dashboard">
         <i data-lucide="gauge" class="w-4 h-4"></i> 📊 Daily Dashboard
@@ -58,8 +66,12 @@
       </button>
     </div>
 
+    <!-- ========================================================================= -->
+    <!-- ⭐ TAB 1: 📊 DAILY DASHBOARD (WITH SMOOTH GRADIENT LINE CHART) ⭐ -->
+    <!-- ========================================================================= -->
     <section id="tab-dashboard" class="tab-content block space-y-6">
       
+      <!-- 1. 🏆 OVERALL DAILY PROGRESS CARD -->
       <div class="bg-gradient-to-br from-slate-900 via-slate-900/90 to-slate-950 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-6 relative overflow-hidden">
         <div class="absolute -right-10 -top-10 w-40 h-40 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -76,6 +88,7 @@
               <div class="text-4xl md:text-5xl font-black text-white tracking-tight" id="dashOverallScoreText">0%</div>
             </div>
 
+            <!-- vs Yesterday Indicator -->
             <div class="inline-flex items-center gap-2 bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-800 text-xs font-semibold">
               <span class="text-slate-400">vs Yesterday:</span>
               <span id="dashVsYesterdayBadge" class="flex items-center gap-1 text-slate-300 font-bold">
@@ -84,6 +97,7 @@
             </div>
           </div>
 
+          <!-- Circular Progress Indicator -->
           <div class="flex items-center gap-4 bg-slate-950/90 px-6 py-4 rounded-3xl border border-slate-800/80 shadow-inner">
             <div class="relative flex items-center justify-center">
               <svg class="w-24 h-24 transform -rotate-90">
@@ -95,11 +109,12 @@
             <div>
               <div class="text-xs text-slate-400 font-medium">Daily Target Units</div>
               <div class="text-sm font-mono font-bold text-emerald-400" id="dashTaskFraction">0 / 0 Done</div>
-              <p class="text-[10px] text-slate-500 mt-1">Calculated in real-time</p>
+              <p class="text-[10px] text-slate-500 mt-1">Real-time update</p>
             </div>
           </div>
         </div>
 
+        <!-- Linear Overall Progress Bar -->
         <div class="space-y-1.5 pt-2 border-t border-slate-800/60">
           <div class="flex justify-between text-xs font-semibold text-slate-300">
             <span>Overall Execution Progression</span>
@@ -111,6 +126,7 @@
         </div>
       </div>
 
+      <!-- 2. 📊 CATEGORY-WISE PROGRESS CARDS -->
       <div class="space-y-3">
         <div class="flex items-center justify-between px-1">
           <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
@@ -121,6 +137,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           
+          <!-- 1. Spiritual -->
           <div class="bg-slate-900 border border-slate-800/90 p-4 rounded-2xl space-y-3 shadow-lg">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -141,6 +158,7 @@
             </div>
           </div>
 
+          <!-- 2. Fitness & Walk -->
           <div class="bg-slate-900 border border-slate-800/90 p-4 rounded-2xl space-y-3 shadow-lg">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -161,6 +179,7 @@
             </div>
           </div>
 
+          <!-- 3. Nutrition -->
           <div class="bg-slate-900 border border-slate-800/90 p-4 rounded-2xl space-y-3 shadow-lg">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -180,6 +199,7 @@
             </div>
           </div>
 
+          <!-- 4. Sleep & Night -->
           <div class="bg-slate-900 border border-slate-800/90 p-4 rounded-2xl space-y-3 shadow-lg">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -199,6 +219,7 @@
             </div>
           </div>
 
+          <!-- 5. Founder & Learn -->
           <div class="bg-slate-900 border border-slate-800/90 p-4 rounded-2xl space-y-3 shadow-lg sm:col-span-2 md:col-span-2">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -221,59 +242,72 @@
         </div>
       </div>
 
+      <!-- 3. 📈 7-DAY PERFORMANCE PROGRESSION CHART (SMOOTH CURVE) -->
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 md:p-6 space-y-4 shadow-xl">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
           <div>
             <h3 class="text-sm md:text-base font-bold text-white flex items-center gap-2">
               <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400"></i> 7-Day Performance Progression (%)
             </h3>
-            <p class="text-xs text-slate-400">বিগত ৭ দিনের ডিসিপ্লিন ধারাবাহিকতার চিত্র।</p>
+            <p class="text-xs text-slate-400">Your consistency over the last 7 days</p>
           </div>
           <span class="text-xs font-black text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20" id="weeklyAverageScoreBadge">
             Avg: 0%
           </span>
         </div>
 
-        <div id="sevenDaysProgressionList" class="space-y-2.5 text-xs"></div>
+        <!-- Chart Container -->
+        <div class="relative w-full h-64 sm:h-72">
+          <canvas id="sevenDayProgressionCanvas"></canvas>
+        </div>
       </div>
 
+      <!-- 4. 📅 TODAY'S STATUS OVERVIEW -->
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 md:p-6 space-y-4 shadow-xl">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
           <h3 class="text-sm md:text-base font-bold text-white flex items-center gap-2">
             <i data-lucide="check-check" class="w-4 h-4 text-sky-400"></i> 📅 Today's Live Status
           </h3>
-          <span class="text-xs text-slate-400">Real-time indicators</span>
+          <span class="text-xs text-slate-400">Real-time breakdown</span>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <!-- Namaz -->
           <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800/80 space-y-1">
             <span class="text-[11px] text-slate-400 flex items-center gap-1">🕌 Namaz</span>
             <div id="statusNamaz" class="font-bold text-slate-300">✕ Pending</div>
           </div>
+          <!-- Sunnah -->
           <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800/80 space-y-1">
             <span class="text-[11px] text-slate-400 flex items-center gap-1">🌙 Sunnah</span>
             <div id="statusSunnah" class="font-bold text-slate-300">✕ Pending</div>
           </div>
+          <!-- Walking -->
           <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800/80 space-y-1">
             <span class="text-[11px] text-slate-400 flex items-center gap-1">🚶 Walking</span>
             <div id="statusWalking" class="font-bold text-slate-300">0 / 8,000</div>
           </div>
+          <!-- Workout / Rest -->
           <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800/80 space-y-1">
             <span class="text-[11px] text-slate-400 flex items-center gap-1">🏋️ Workout</span>
             <div id="statusWorkout" class="font-bold text-slate-300">✕ Not Done</div>
           </div>
+          <!-- Nutrition -->
           <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800/80 space-y-1">
             <span class="text-[11px] text-slate-400 flex items-center gap-1">🍳 Nutrition</span>
             <div id="statusNutrition" class="font-bold text-slate-300">✕ Pending</div>
           </div>
+          <!-- Sleep -->
           <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800/80 space-y-1">
             <span class="text-[11px] text-slate-400 flex items-center gap-1">😴 Sleep</span>
             <div id="statusSleep" class="font-bold text-slate-300">✕ Pending</div>
           </div>
+          <!-- Learning -->
           <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800/80 space-y-1">
             <span class="text-[11px] text-slate-400 flex items-center gap-1">📚 Learning</span>
             <div id="statusLearning" class="font-bold text-slate-300">✕ Pending</div>
           </div>
+          <!-- Reflection -->
           <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800/80 space-y-1">
             <span class="text-[11px] text-slate-400 flex items-center gap-1">📝 Reflection</span>
             <div id="statusReflection" class="font-bold text-slate-300">✕ Pending</div>
@@ -283,6 +317,9 @@
 
     </section>
 
+    <!-- ========================================================================= -->
+    <!-- TAB 2: PRAYER, SUNNAH & HABIT CHECKLIST -->
+    <!-- ========================================================================= -->
     <section id="tab-tracking" class="tab-content hidden space-y-6">
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 shadow-lg">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -293,6 +330,7 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <!-- Fajr -->
           <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
             <div class="font-bold text-amber-400 flex items-center justify-between">
               <span>🌅 ফজর</span>
@@ -308,6 +346,7 @@
             </label>
           </div>
 
+          <!-- Dhuhr -->
           <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
             <div class="font-bold text-sky-400 flex items-center justify-between">
               <span>☀️ যোহর</span>
@@ -327,6 +366,7 @@
             </label>
           </div>
 
+          <!-- Asr -->
           <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
             <div class="font-bold text-orange-400 flex items-center justify-between">
               <span>🌤️ আসর</span>
@@ -338,6 +378,7 @@
             </label>
           </div>
 
+          <!-- Maghrib -->
           <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
             <div class="font-bold text-rose-400 flex items-center justify-between">
               <span>🌆 মাগরিব</span>
@@ -353,6 +394,7 @@
             </label>
           </div>
 
+          <!-- Isha -->
           <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2 sm:col-span-2">
             <div class="font-bold text-indigo-400 flex items-center justify-between">
               <span>🌙 এশা</span>
@@ -372,6 +414,7 @@
         </div>
       </div>
 
+      <!-- Habits -->
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 shadow-lg">
         <h3 class="text-sm md:text-base font-bold flex items-center gap-2 text-slate-200">
           <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> Daily Habits & Disciplines
@@ -401,6 +444,7 @@
         </div>
       </div>
 
+      <!-- Reflection -->
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 shadow-lg">
         <h3 class="text-sm md:text-base font-bold flex items-center gap-2 text-slate-200">
           <i data-lucide="edit-3" class="w-4 h-4 text-emerald-400"></i> Daily Reflection & Night Audit
@@ -429,6 +473,9 @@
       </div>
     </section>
 
+    <!-- ========================================================================= -->
+    <!-- TAB 3: WORKOUT & STEPS -->
+    <!-- ========================================================================= -->
     <section id="tab-workout" class="tab-content hidden space-y-6">
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 shadow-lg">
         <h3 class="text-sm md:text-base font-bold text-emerald-400 flex items-center gap-2">
@@ -518,6 +565,9 @@
       </div>
     </section>
 
+    <!-- ========================================================================= -->
+    <!-- TAB 4: TRADING JOURNAL -->
+    <!-- ========================================================================= -->
     <section id="tab-trading" class="tab-content hidden space-y-6">
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 shadow-lg">
         <div class="border-b border-slate-800 pb-3">
@@ -574,6 +624,7 @@
 
   </main>
 
+  <!-- JAVASCRIPT ENGINE -->
   <script>
     const STORAGE_KEY = 'DISCIPLINE_OS_ULTIMATE_DATA';
 
@@ -650,7 +701,6 @@
       lucide.createIcons();
     }
 
-    // --- KEYS DEFINITION ---
     const farzKeys = ['p_fajr_farz', 'p_dhuhr_farz', 'p_asr_farz', 'p_maghrib_farz', 'p_isha_farz'];
     const sunnahKeys = ['p_fajr_sunnah', 'p_dhuhr_sunnah_pre', 'p_dhuhr_sunnah_post', 'p_maghrib_sunnah', 'p_isha_sunnah'];
     const habitKeys = ['h_nutrition', 'h_quran', 'h_learning', 'h_phone', 'h_sleep'];
@@ -659,7 +709,6 @@
     function recalculateEverything() {
       const day = appState.days[today];
 
-      // 1. Prayers
       let farzDone = 0;
       let sunnahDone = 0;
       const prayers = {};
@@ -679,7 +728,6 @@
       });
       day.prayers = prayers;
 
-      // 2. Habits
       const habits = {};
       habitKeys.forEach(k => {
         const el = document.getElementById(k);
@@ -697,9 +745,8 @@
       const stepsCount = day.steps || 0;
       const stepsRatio = Math.min(1, stepsCount / 8000);
 
-      // 3. Workout Logic (Rest Day Protected)
       const wStatus = day.workoutStatus || 'missed';
-      let totalDenominator = 5 + 5 + 5 + 1 + 1; // 5 Farz + 5 Sunnah + 5 Habits + Steps + Reflection
+      let totalDenominator = 5 + 5 + 5 + 1 + 1;
       let earnedPoints = farzDone + sunnahDone + nutritionDone + quranDone + learnDone + phoneDone + sleepDone + stepsRatio + refDone;
 
       if (wStatus === 'completed') {
@@ -708,7 +755,6 @@
       } else if (wStatus === 'missed') {
         totalDenominator += 1;
       }
-      // If 'rest', no penalty (not added to totalDenominator)!
 
       const overallPercent = Math.min(100, Math.round((earnedPoints / totalDenominator) * 100));
       day.dailyScore = overallPercent;
@@ -717,23 +763,108 @@
       renderDashboardView();
     }
 
-    // --- RENDER COMPLETE DASHBOARD (SPEC FOCUSED) ---
+    // --- 📈 CHART.JS INSTANCE MANAGEMENT ---
+    let sevenDayChartInstance = null;
+
+    function renderSevenDayProgressionChart(labels, dataPoints) {
+      const ctx = document.getElementById('sevenDayProgressionCanvas');
+      if (!ctx) return;
+
+      if (sevenDayChartInstance) {
+        sevenDayChartInstance.destroy();
+      }
+
+      const canvasCtx = ctx.getContext('2d');
+      const gradientFill = canvasCtx.createLinearGradient(0, 0, 0, 240);
+      gradientFill.addColorStop(0, 'rgba(16, 185, 129, 0.35)');
+      gradientFill.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+
+      sevenDayChartInstance = new Chart(canvasCtx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Daily Progress (%)',
+            data: dataPoints,
+            borderColor: '#10b981',
+            borderWidth: 3,
+            tension: 0.4, // Smooth curve
+            fill: true,
+            backgroundColor: gradientFill,
+            pointBackgroundColor: '#10b981',
+            pointBorderColor: '#0f172a',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            pointHoverBackgroundColor: '#34d399'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.95)',
+              titleColor: '#94a3b8',
+              bodyColor: '#10b981',
+              bodyFont: { weight: 'bold', size: 13 },
+              padding: 10,
+              displayColors: false,
+              callbacks: {
+                label: function(context) {
+                  return `Execution: ${context.parsed.y}%`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              min: 0,
+              max: 100,
+              ticks: {
+                stepSize: 20,
+                color: '#64748b',
+                font: { size: 11 },
+                callback: function(value) { return value + '%'; }
+              },
+              grid: {
+                color: 'rgba(51, 65, 85, 0.4)',
+                drawBorder: false
+              }
+            },
+            x: {
+              ticks: {
+                color: '#94a3b8',
+                font: { size: 11, weight: 'bold' }
+              },
+              grid: {
+                display: false,
+                drawBorder: false
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // --- RENDER COMPLETE DASHBOARD ---
     function renderDashboardView() {
       const day = appState.days[today] || {};
       const score = day.dailyScore || 0;
 
-      // 1. Overall Growth Score
+      // 1. Overall Score Card
       document.getElementById('dashOverallScoreText').innerText = `${score}%`;
       document.getElementById('dashLinearText').innerText = `${score}%`;
       document.getElementById('dashLinearBar').style.width = `${score}%`;
 
       const circle = document.getElementById('dashCircleProgress');
-      const circumference = 2 * Math.PI * 38; // ~238.76
+      const circumference = 2 * Math.PI * 38;
       const offset = circumference - (score / 100) * circumference;
       circle.style.strokeDashoffset = offset;
       document.getElementById('dashCircleText').innerText = `${score}%`;
 
-      // vs Yesterday Calculation
+      // vs Yesterday
       const yesterdayKey = getDateKeyOffset(1);
       const yData = appState.days[yesterdayKey];
       const yScore = yData ? (yData.dailyScore || 0) : null;
@@ -755,7 +886,7 @@
         vsBadge.className = 'flex items-center gap-1 text-sky-400 font-bold';
       }
 
-      // 2. Category-wise Calculations
+      // 2. Category Progress
       let farzDone = 0;
       let sunnahDone = 0;
       if (day.prayers) {
@@ -767,7 +898,6 @@
       document.getElementById('catSpiritualBar').style.width = `${spiritualPct}%`;
       document.getElementById('catSpiritualSub').innerHTML = `<span>${farzDone}/5 Farz</span><span>${sunnahDone}/5 Sunnah</span>`;
 
-      // Fitness & Walk
       const steps = day.steps || 0;
       const stepRatio = Math.min(1, steps / 8000);
       const wStatus = day.workoutStatus || 'missed';
@@ -783,20 +913,17 @@
         </span>
       `;
 
-      // Nutrition
       const habits = day.habits || {};
       const nutDone = habits['h_nutrition'] ? 100 : 0;
       document.getElementById('catNutritionScore').innerText = `${nutDone}%`;
       document.getElementById('catNutritionBar').style.width = `${nutDone}%`;
 
-      // Sleep & Night
       const phoneDone = habits['h_phone'] ? 50 : 0;
       const sleepDone = habits['h_sleep'] ? 50 : 0;
       const sleepTotal = phoneDone + sleepDone;
       document.getElementById('catSleepScore').innerText = `${sleepTotal}%`;
       document.getElementById('catSleepBar').style.width = `${sleepTotal}%`;
 
-      // Founder & Learn
       const quranDone = habits['h_quran'] ? 33 : 0;
       const learnDone = habits['h_learning'] ? 34 : 0;
       const refDone = (day.reflection && day.reflection.good) ? 33 : 0;
@@ -804,36 +931,28 @@
       document.getElementById('catLearnScore').innerText = `${founderTotal}%`;
       document.getElementById('catLearnBar').style.width = `${founderTotal}%`;
 
-      // 3. 7-Day Performance Progression Chart
-      const chartContainer = document.getElementById('sevenDaysProgressionList');
-      chartContainer.innerHTML = '';
+      // 3. 📈 7-Day Line Chart Generation
+      const chartLabels = [];
+      const chartDataPoints = [];
       let sum7Days = 0;
 
       for (let i = 6; i >= 0; i--) {
         const dKey = getDateKeyOffset(i);
         const itemData = appState.days[dKey] || { dailyScore: 0 };
         const dObj = new Date(dKey);
-        const dayName = dObj.toLocaleDateString('en-US', { weekday: 'short' });
+        const dayLabel = dObj.toLocaleDateString('en-US', { weekday: 'short' });
         const sc = itemData.dailyScore || 0;
-        sum7Days += sc;
 
-        const row = document.createElement('div');
-        row.className = 'flex items-center gap-3 bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/80';
-        row.innerHTML = `
-          <span class="w-12 font-mono font-bold text-slate-300">${dayName}</span>
-          <span class="text-[10px] text-slate-500 font-mono w-14">${dKey.slice(5)}</span>
-          <div class="flex-1 bg-slate-900 rounded-full h-2.5 overflow-hidden">
-            <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500" style="width: ${sc}%"></div>
-          </div>
-          <span class="w-12 text-right font-black font-mono ${sc >= 80 ? 'text-emerald-400' : sc >= 50 ? 'text-amber-400' : 'text-rose-400'}">${sc}%</span>
-        `;
-        chartContainer.appendChild(row);
+        chartLabels.push(dayLabel);
+        chartDataPoints.push(sc);
+        sum7Days += sc;
       }
 
       const avg7 = Math.round(sum7Days / 7);
       document.getElementById('weeklyAverageScoreBadge').innerText = `Avg: ${avg7}%`;
+      renderSevenDayProgressionChart(chartLabels, chartDataPoints);
 
-      // 4. Today's Live Status Indicators
+      // 4. Today's Status Overview
       const setStatusBadge = (elId, isDone, customText = '') => {
         const el = document.getElementById(elId);
         if (customText) {
@@ -861,7 +980,7 @@
       lucide.createIcons();
     }
 
-    // --- TRACKING VALUES ---
+    // --- FORM DATA LOAD/SAVE ---
     function loadTrackingValues() {
       const d = appState.days[today] || {};
       const prayers = d.prayers || {};
@@ -893,7 +1012,6 @@
       alert('রিফ্লেকশন সংরক্ষিত হয়েছে!');
     }
 
-    // --- WORKOUT & WALKING ---
     function calculateSteps() {
       const steps = parseInt(document.getElementById('stepInput').value) || 0;
       const km = (steps * 0.00075).toFixed(2);
@@ -949,7 +1067,7 @@
       appState.days[today].workoutStatus = status;
       saveState(appState);
       recalculateEverything();
-      alert('ওয়ার্কআউট ডাটা সফলভাবে সংরক্ষিত হয়েছে!');
+      alert('ওয়ার্কআউট ডাটা সংরক্ষিত হয়েছে!');
     }
 
     function loadWorkoutValues() {
@@ -961,7 +1079,6 @@
       calculateSteps();
     }
 
-    // --- TRADING LOGS ---
     function toggleEmotionalBox() {
       const ch = document.getElementById('tr_emotional').checked;
       document.getElementById('tr_emotional_box').classList.toggle('hidden', !ch);
@@ -1019,7 +1136,6 @@
       renderTradingLogs();
     }
 
-    // --- DATA BACKUP & RESTORE ---
     function exportData() {
       const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
       const a = document.createElement('a');
@@ -1045,7 +1161,6 @@
       reader.readAsText(file);
     }
 
-    // --- INIT ---
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('currentDateDisplay').innerText = new Date().toLocaleDateString('en-US', {
         weekday: 'long', year: 'numeric', month: 'short', day: 'numeric'
