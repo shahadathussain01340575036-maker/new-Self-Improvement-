@@ -11,15 +11,21 @@
     body {
       background-color: #060b13;
       color: #f1f5f9;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
-    .custom-scrollbar::-webkit-scrollbar { height: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 4px;
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
   </style>
 </head>
-<body class="min-h-screen pb-20 selection:bg-emerald-500 selection:text-white">
+<body class="min-h-screen pb-16 selection:bg-emerald-500 selection:text-white">
 
-  <header class="border-b border-slate-900 bg-[#080e1a]/95 sticky top-0 z-50 px-4 py-3">
+  <header class="border-b border-slate-900 bg-[#080e1a]/95 sticky top-0 z-50 px-4 py-3 backdrop-blur-md">
     <div class="max-w-3xl mx-auto flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20">
@@ -30,15 +36,15 @@
             <h1 class="text-sm font-bold text-white tracking-wide">Founder & Growth OS</h1>
             <span class="text-[10px] bg-emerald-950/80 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-medium">Phase 2: Foundation</span>
           </div>
-          <p class="text-xs text-slate-400" id="headerDateDisplay">রবিবার, ৩০ আগস্ট, ২০২৬</p>
+          <p class="text-xs text-slate-400" id="currentDateDisplay">রবিবার, ৩০ আগস্ট, ২০২৬</p>
         </div>
       </div>
 
       <div class="flex items-center gap-2">
-        <button onclick="exportData()" title="Download Backup" class="p-2 text-slate-400 hover:text-white bg-slate-900 border border-slate-800 rounded-xl transition">
+        <button onclick="exportData()" title="Backup Download" class="p-2 text-slate-400 hover:text-white bg-[#0a1220] border border-slate-800 rounded-xl transition">
           <i data-lucide="download" class="w-4 h-4"></i>
         </button>
-        <label title="Upload Backup" class="p-2 text-slate-400 hover:text-white bg-slate-900 border border-slate-800 rounded-xl cursor-pointer transition">
+        <label title="Backup Upload" class="p-2 text-slate-400 hover:text-white bg-[#0a1220] border border-slate-800 rounded-xl cursor-pointer transition">
           <i data-lucide="upload" class="w-4 h-4"></i>
           <input type="file" class="hidden" accept=".json" onchange="importData(event)">
         </label>
@@ -86,12 +92,12 @@
           </div>
         </div>
 
-        <div class="bg-[#071724]/60 border border-emerald-500/20 rounded-xl p-3 text-xs space-y-1">
+        <div class="bg-[#071724]/70 border border-emerald-500/20 rounded-xl p-3 text-xs space-y-1">
           <div class="text-emerald-400 font-bold flex items-center gap-1.5">
-            <i data-lucide="box" class="w-3.5 h-3.5"></i> Daily AI Coach Directive
+            <i data-lucide="target" class="w-3.5 h-3.5"></i> Daily AI Coach Directive
           </div>
-          <p class="text-slate-300 text-[11px] leading-relaxed">
-            🎯 প্রতিদিন ১% উন্নতি করুন। প্রতিটি অভ্যাসের সঠিক ট্র্যাকিং আপনাকে লক্ষ্যে পৌঁছে দেবে।
+          <p class="text-slate-300 text-[11px] leading-relaxed" id="aiDirectiveText">
+            🎯 প্রতিদিন ১% উন্নতি করার মানসিকতা রাখুন। সব রুটিন ঠিকঠাক পূরণ করলে চার্টে পারফেক্ট গ্রোথ দেখতে পাবেন।
           </p>
         </div>
       </div>
@@ -163,7 +169,7 @@
 
     </section>
 
-    <section id="tab-routine" class="tab-content hidden space-y-5">
+    <section id="tab-routine" class="tab-content hidden space-y-4">
       
       <div class="flex items-center justify-between">
         <div>
@@ -175,29 +181,28 @@
 
       <div class="bg-[#09111e] border border-slate-800/80 rounded-2xl p-4 space-y-3 shadow-md">
         <div class="flex items-center gap-2 text-xs font-bold text-amber-400 border-b border-slate-800/60 pb-2">
-          <span>🔆 👤 Morning Routine</span>
+          <span>🔆 Morning Routine</span>
         </div>
-        <div class="space-y-2 text-xs" id="morningRoutineList">
-          </div>
+        <div class="space-y-2 text-xs" id="morningRoutineList"></div>
       </div>
 
       <div class="bg-[#09111e] border border-slate-800/80 rounded-2xl p-4 space-y-3 shadow-md">
         <div class="flex items-center gap-2 text-xs font-bold text-sky-400 border-b border-slate-800/60 pb-2">
-          <span>☀️ 🕋 Afternoon (Focus: Dhuhr & Work)</span>
+          <span>☀️ Afternoon (Focus: Dhuhr & Deep Work)</span>
         </div>
         <div class="space-y-2 text-xs" id="afternoonRoutineList"></div>
       </div>
 
       <div class="bg-[#09111e] border border-slate-800/80 rounded-2xl p-4 space-y-3 shadow-md">
         <div class="flex items-center gap-2 text-xs font-bold text-orange-400 border-b border-slate-800/60 pb-2">
-          <span>🌇 🏃 Evening (Focus: Asr, Maghrib & Workout)</span>
+          <span>🌇 Evening (Focus: Asr, Maghrib & Workout)</span>
         </div>
         <div class="space-y-2 text-xs" id="eveningRoutineList"></div>
       </div>
 
       <div class="bg-[#09111e] border border-slate-800/80 rounded-2xl p-4 space-y-3 shadow-md">
         <div class="flex items-center gap-2 text-xs font-bold text-indigo-400 border-b border-slate-800/60 pb-2">
-          <span>🌙 😴 Night Routine (Isha, Audit & Sleep by 11 PM)</span>
+          <span>🌙 Night Routine (Isha, Audit & Sleep by 11 PM)</span>
         </div>
         <div class="space-y-2 text-xs" id="nightRoutineList"></div>
       </div>
@@ -207,20 +212,20 @@
     <section id="tab-planning" class="tab-content hidden space-y-4">
       <div class="bg-[#09111e] border border-slate-800/80 rounded-2xl p-4 space-y-3">
         <h3 class="text-sm font-bold text-white flex items-center gap-2">
-          <i data-lucide="edit-3" class="w-4 h-4 text-emerald-400"></i> Night Audit & Reflection
+          <i data-lucide="edit-3" class="w-4 h-4 text-emerald-400"></i> Night Audit & Daily Reflection
         </h3>
         <div class="space-y-3 text-xs">
           <div>
-            <label class="block text-slate-400 mb-1">আজকে কী ভালো হলো?</label>
-            <textarea id="refGood" rows="2" class="w-full bg-[#050912] border border-slate-800 rounded-xl p-2.5 text-slate-200" placeholder="আজকের অর্জন..."></textarea>
+            <label class="block text-slate-400 mb-1">আজকে কী ভালো হলো? (What went well?)</label>
+            <textarea id="refGood" rows="2" class="w-full bg-[#050912] border border-slate-800 rounded-xl p-2.5 text-slate-200 outline-none focus:border-emerald-500" placeholder="আজকের ইতিবাচক দিকগুলো..."></textarea>
           </div>
           <div>
-            <label class="block text-slate-400 mb-1">কোথায় ভুল বা আলসেমি হলো?</label>
-            <textarea id="refMistake" rows="2" class="w-full bg-[#050912] border border-slate-800 rounded-xl p-2.5 text-slate-200" placeholder="যেখানে উন্নতি দরকার..."></textarea>
+            <label class="block text-slate-400 mb-1">কোথায় ভুল বা আলসেমি হলো? (What could be better?)</label>
+            <textarea id="refMistake" rows="2" class="w-full bg-[#050912] border border-slate-800 rounded-xl p-2.5 text-slate-200 outline-none focus:border-emerald-500" placeholder="যেখানে সংশোধন দরকার..."></textarea>
           </div>
           <div>
-            <label class="block text-slate-400 mb-1">আগামীকালের ১ নম্বর টার্গেট:</label>
-            <input type="text" id="refTomorrow" class="w-full bg-[#050912] border border-slate-800 rounded-xl p-2.5 text-slate-200" placeholder="আগামীকালের ফোকাস...">
+            <label class="block text-slate-400 mb-1">আগামীকালের প্রধান টার্গেট (Top Priority for Tomorrow):</label>
+            <input type="text" id="refTomorrow" class="w-full bg-[#050912] border border-slate-800 rounded-xl p-2.5 text-slate-200 outline-none focus:border-emerald-500" placeholder="আগামীকালের ১ নম্বর ফোকাস...">
           </div>
           <button onclick="saveReflection()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold text-white py-2 rounded-xl transition">
             Save Reflection
@@ -237,7 +242,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
           <div>
             <label class="block text-slate-400 mb-1">Daily Steps Count</label>
-            <input type="number" id="fitStepsInput" placeholder="e.g. 8000" oninput="updateFitnessSteps()" class="w-full bg-[#050912] border border-slate-800 rounded-xl p-2.5">
+            <input type="number" id="fitStepsInput" placeholder="e.g. 8000" oninput="updateFitnessSteps()" class="w-full bg-[#050912] border border-slate-800 rounded-xl p-2.5 outline-none focus:border-emerald-500">
           </div>
           <div class="bg-[#050912] p-3 rounded-xl border border-slate-800 flex flex-col justify-center text-center">
             <span class="text-[10px] text-slate-400">Target (8,000 Steps)</span>
@@ -248,7 +253,7 @@
             <select id="fitWorkoutSelect" onchange="updateWorkoutStatus(this.value)" class="bg-transparent font-bold text-sky-400 text-center outline-none">
               <option value="none" class="bg-slate-900 text-slate-300">Pending</option>
               <option value="done" class="bg-slate-900 text-emerald-400">Completed (Done)</option>
-              <option value="rest" class="bg-slate-900 text-sky-400">Rest Day (Safe)</option>
+              <option value="rest" class="bg-slate-900 text-sky-400">Rest Day</option>
             </select>
           </div>
         </div>
@@ -267,32 +272,34 @@
   </main>
 
   <script>
-    const STORAGE_KEY = 'FOUNDER_GROWTH_OS_DATA_V3';
+    const STORAGE_KEY = 'FOUNDER_GROWTH_OS_DATA_V4';
 
     const routineSchema = [
       // Morning
-      { id: 'm_fajr', title: 'Fajr Prayer (ফজর)', slot: 'morning', category: 'spiritual' },
-      { id: 'm_quran', title: 'Quran / Dua & Gratitude', slot: 'morning', category: 'founder' },
-      { id: 'm_walk', title: '2.0 - 2.5 km Walking (হাঁটা)', slot: 'morning', category: 'fitness' },
+      { id: 'm_fajr', title: 'Fajr Prayer (ফজর নামাজ)', slot: 'morning', category: 'spiritual' },
+      { id: 'm_quran', title: 'Quran / Dua & Morning Dhikr', slot: 'morning', category: 'spiritual' },
+      { id: 'm_walk', title: '2.0 - 2.5 km Walking (সকালের হাঁটা)', slot: 'morning', category: 'fitness' },
       { id: 'm_breakfast', title: 'Healthy Protein Breakfast', slot: 'morning', category: 'nutrition' },
       
       // Afternoon
-      { id: 'a_dhuhr', title: 'Dhuhr Prayer (যোহর)', slot: 'afternoon', category: 'spiritual' },
-      { id: 'a_deepwork', title: 'Deep Work / Skill / Business Session', slot: 'afternoon', category: 'founder' },
-      { id: 'a_lunch', title: 'Clean Lunch & 1.5L Hydration', slot: 'afternoon', category: 'nutrition' },
+      { id: 'a_dhuhr', title: 'Dhuhr Prayer (যোহর নামাজ)', slot: 'afternoon', category: 'spiritual' },
+      { id: 'a_deepwork', title: 'Deep Work / Business Execution Session', slot: 'afternoon', category: 'founder' },
+      { id: 'a_lunch', title: 'Clean Lunch & Proper Hydration', slot: 'afternoon', category: 'nutrition' },
 
       // Evening
-      { id: 'e_asr', title: 'Asr Prayer (আসর)', slot: 'evening', category: 'spiritual' },
-      { id: 'e_workout', title: 'Body & Strength Workout / Calisthenics', slot: 'evening', category: 'fitness' },
-      { id: 'e_maghrib', title: 'Maghrib Prayer (মাগরিব)', slot: 'evening', category: 'spiritual' },
+      { id: 'e_asr', title: 'Asr Prayer (আসর নামাজ)', slot: 'evening', category: 'spiritual' },
+      { id: 'e_workout', title: 'Calisthenics / Strength Workout', slot: 'evening', category: 'fitness' },
+      { id: 'e_maghrib', title: 'Maghrib Prayer (মাগরিব নামাজ)', slot: 'evening', category: 'spiritual' },
 
       // Night
-      { id: 'n_isha', title: 'Isha Prayer (এশা)', slot: 'night', category: 'spiritual' },
+      { id: 'n_isha', title: 'Isha Prayer (এশা নামাজ)', slot: 'night', category: 'spiritual' },
+      { id: 'n_learn', title: 'Skill Learning / Market Reading', slot: 'night', category: 'founder' },
       { id: 'n_phone', title: '10:30 PM Screen & Phone Off', slot: 'night', category: 'sleep' },
-      { id: 'n_sleep', title: '11:00 PM Bedtime & Sleep', slot: 'night', category: 'sleep' }
+      { id: 'n_sleep', title: '11:00 PM Bedtime & Sound Sleep', slot: 'night', category: 'sleep' }
     ];
 
     const bengaliDays = ['রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহস্পতি', 'শুক্র', 'শনি'];
+    const bengaliMonths = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
 
     function getTodayKey() {
       const d = new Date();
@@ -305,14 +312,26 @@
       return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     }
 
+    function formatBengaliHeaderDate() {
+      const now = new Date();
+      const dayName = bengaliDays[now.getDay()];
+      const dayNum = now.getDate();
+      const monthName = bengaliMonths[now.getMonth()];
+      const year = now.getFullYear();
+      const el = document.getElementById('currentDateDisplay');
+      if (el) {
+        el.innerText = `${dayName}বার, ${dayNum} ${monthName}, ${year}`;
+      }
+    }
+
     function loadState() {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        return {
-          days: {}
-        };
+      if (!raw) return { days: {} };
+      try {
+        return JSON.parse(raw);
+      } catch (e) {
+        return { days: {} };
       }
-      return JSON.parse(raw);
     }
 
     function saveState(st) {
@@ -378,14 +397,14 @@
         const currentVal = dayData[item.id] || 'missed';
 
         const row = document.createElement('div');
-        row.className = "bg-[#040811] border border-slate-800/80 rounded-xl px-3 py-2 flex items-center justify-between gap-2";
+        row.className = "bg-[#040811] border border-slate-800/80 rounded-xl px-3 py-2.5 flex items-center justify-between gap-2";
 
         const left = document.createElement('div');
         left.className = "flex items-center gap-2 font-medium text-slate-300";
-        left.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${currentVal === 'done' ? 'bg-emerald-400' : currentVal === 'partial' ? 'bg-amber-400' : 'bg-slate-600'}"></span><span>${item.title}</span>`;
+        left.innerHTML = `<span class="w-2 h-2 rounded-full ${currentVal === 'done' ? 'bg-emerald-400 ring-2 ring-emerald-400/20' : currentVal === 'partial' ? 'bg-amber-400 ring-2 ring-amber-400/20' : 'bg-slate-600'}"></span><span>${item.title}</span>`;
 
         const btnGroup = document.createElement('div');
-        btnGroup.className = "flex items-center gap-1 text-[11px] font-semibold";
+        btnGroup.className = "flex items-center gap-1.5 text-[11px] font-semibold";
 
         const btnDone = `<button onclick="setRoutineItemStatus('${item.id}', 'done')" class="px-2.5 py-1 rounded-lg transition ${currentVal === 'done' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-900 text-slate-400 border border-slate-800'}">Done</button>`;
         const btnPartial = `<button onclick="setRoutineItemStatus('${item.id}', 'partial')" class="px-2 py-1 rounded-lg transition ${currentVal === 'partial' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-slate-900 text-slate-400 border border-slate-800'}">Partial</button>`;
@@ -468,8 +487,8 @@
       }
 
       const canvasCtx = ctx.getContext('2d');
-      const gradient = canvasCtx.createLinearGradient(0, 0, 0, 220);
-      gradient.addColorStop(0, 'rgba(16, 185, 129, 0.25)');
+      const gradient = canvasCtx.createLinearGradient(0, 0, 0, 230);
+      gradient.addColorStop(0, 'rgba(16, 185, 129, 0.3)');
       gradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
 
       chartInstance = new Chart(canvasCtx, {
@@ -486,8 +505,8 @@
             pointBackgroundColor: '#10b981',
             pointBorderColor: '#09111e',
             pointBorderWidth: 2,
-            pointRadius: 4,
-            pointHoverRadius: 6
+            pointRadius: 4.5,
+            pointHoverRadius: 6.5
           }]
         },
         options: {
@@ -504,7 +523,7 @@
               displayColors: false,
               callbacks: {
                 label: function(ctx) {
-                  return `Progress: ${ctx.parsed.y}%`;
+                  return `Execution: ${ctx.parsed.y}%`;
                 }
               }
             }
@@ -519,7 +538,7 @@
                 font: { size: 10 }
               },
               grid: {
-                color: 'rgba(51, 65, 85, 0.25)',
+                color: 'rgba(51, 65, 85, 0.22)',
                 drawBorder: false
               }
             },
@@ -542,17 +561,17 @@
       const dayData = state.days[today] || {};
       const score = dayData.score || 0;
 
-      // Score
+      // Update Today's Execution
       document.getElementById('dashExecutionScore').innerText = `${score}%`;
 
-      // vs Yesterday
+      // Compare vs Yesterday
       const yKey = getDateKeyOffset(1);
       const yData = state.days[yKey];
       const yScore = yData ? (yData.score || 0) : 0;
       const vsEl = document.getElementById('dashVsYesterdayText');
 
       if (score > yScore) {
-        vsEl.innerText = `+${score - yScore}% Better`;
+        vsEl.innerText = `+${score - yScore}% Higher`;
         vsEl.className = "text-xs font-bold text-emerald-400";
       } else if (score < yScore) {
         vsEl.innerText = `-${yScore - score}% Lower`;
@@ -562,12 +581,14 @@
         vsEl.className = "text-xs font-bold text-slate-300";
       }
 
-      // Categories
+      // Update Category Progress Bars
       const cats = dayData.catScores || { spiritual: 0, fitness: 0, nutrition: 0, sleep: 0, founder: 0 };
       
       const updateCat = (id, pct) => {
-        document.getElementById(`cat${id}Pct`).innerText = `${pct}%`;
-        document.getElementById(`cat${id}Bar`).style.width = `${pct}%`;
+        const pctEl = document.getElementById(`cat${id}Pct`);
+        const barEl = document.getElementById(`cat${id}Bar`);
+        if (pctEl) pctEl.innerText = `${pct}%`;
+        if (barEl) barEl.style.width = `${pct}%`;
       };
 
       updateCat('Spiritual', cats.spiritual || 0);
@@ -576,7 +597,7 @@
       updateCat('Sleep', cats.sleep || 0);
       updateCat('Founder', cats.founder || 0);
 
-      // Build Last 7 Days (Bengali labels: সোম, মঙ্গল, etc.)
+      // Build Last 7 Days (Bengali Days: সোম, মঙ্গল, বুধ, etc.)
       const labels = [];
       const points = [];
 
@@ -593,7 +614,6 @@
       renderSevenDayChart(labels, points);
     }
 
-    // Fitness Helpers
     function updateFitnessSteps() {
       const v = parseInt(document.getElementById('fitStepsInput').value) || 0;
       state.days[today].steps = v;
@@ -622,7 +642,7 @@
         tomorrow: document.getElementById('refTomorrow').value
       };
       saveState(state);
-      alert('রিফ্লেকশন সেভ হয়েছে!');
+      alert('রিফ্লেকশন সংরক্ষিত হয়েছে!');
     }
 
     function loadPlanningTab() {
@@ -669,7 +689,7 @@
         try {
           state = JSON.parse(evt.target.result);
           saveState(state);
-          alert('ডাটা সফলভাবে ইমপোর্ট হয়েছে!');
+          alert('ডাটা সফলভাবে লোড হয়েছে!');
           location.reload();
         } catch (err) {
           alert('ভুল ফাইল ফরম্যাট!');
@@ -679,6 +699,7 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      formatBengaliHeaderDate();
       calculateDailyScores();
       renderRoutineChecklist();
       lucide.createIcons();
