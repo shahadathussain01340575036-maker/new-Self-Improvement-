@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Self-Improvement & Daily Discipline OS</title>
+  <title>Daily Discipline & Progress Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
@@ -12,28 +12,28 @@
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen pb-16 selection:bg-emerald-500 selection:text-white">
+<body class="bg-slate-950 text-slate-100 min-h-screen pb-20 selection:bg-emerald-500 selection:text-white">
 
   <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3">
     <div class="max-w-4xl mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
-        <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20">
-          <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+      <div class="flex items-center gap-3">
+        <div class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-2xl border border-emerald-500/20">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
         </div>
         <div>
           <h1 class="text-sm md:text-base font-bold text-white flex items-center gap-2">
             Discipline OS
-            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30">Start: 30 Aug 2026</span>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30">Target: 30 Aug 2026</span>
           </h1>
-          <p class="text-xs text-slate-400" id="currentDateDisplay">লোড হচ্ছে...</p>
+          <p class="text-xs text-slate-400" id="currentDateDisplay">Date Loading...</p>
         </div>
       </div>
 
       <div class="flex items-center gap-2">
-        <button onclick="exportData()" title="Backup JSON" class="p-2 text-slate-400 hover:text-emerald-400 bg-slate-800 rounded-lg border border-slate-700">
+        <button onclick="exportData()" title="Backup Data" class="p-2 text-slate-400 hover:text-emerald-400 bg-slate-800 rounded-xl border border-slate-700">
           <i data-lucide="download" class="w-4 h-4"></i>
         </button>
-        <label title="Restore JSON" class="p-2 text-slate-400 hover:text-emerald-400 bg-slate-800 rounded-lg border border-slate-700 cursor-pointer">
+        <label title="Restore Data" class="p-2 text-slate-400 hover:text-emerald-400 bg-slate-800 rounded-xl border border-slate-700 cursor-pointer">
           <i data-lucide="upload" class="w-4 h-4"></i>
           <input type="file" id="importInput" class="hidden" accept=".json" onchange="importData(event)">
         </label>
@@ -41,52 +41,141 @@
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-4 py-5 space-y-6">
+  <main class="max-w-4xl mx-auto px-4 py-6 space-y-6">
 
-    <section class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-4 md:p-5 shadow-lg space-y-4">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
-            <i data-lucide="activity" class="w-5 h-5"></i>
+    <section class="bg-gradient-to-br from-slate-900 via-slate-900/95 to-slate-950 border border-slate-800 rounded-3xl p-5 md:p-6 shadow-2xl space-y-6">
+      
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-4 border-b border-slate-800/80">
+        <div class="space-y-1 text-center md:text-left">
+          <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+            📊 Today's Progress
+          </span>
+          <h2 class="text-xl md:text-2xl font-black text-white pt-1">Daily Completion Dashboard</h2>
+          <p class="text-xs text-slate-400">Apnar routine ebong tracking onujayi shob progress auto update hocche.</p>
+        </div>
+
+        <div class="flex items-center gap-4 bg-slate-950/80 px-5 py-3.5 rounded-2xl border border-slate-800 shadow-inner">
+          <div class="relative flex items-center justify-center">
+            <svg class="w-20 h-20 transform -rotate-90">
+              <circle cx="40" cy="40" r="32" stroke="currentColor" stroke-width="6" class="text-slate-800" fill="transparent" />
+              <circle id="dashCircleProgress" cx="40" cy="40" r="32" stroke="currentColor" stroke-width="6" class="text-emerald-500 transition-all duration-700 stroke-round" fill="transparent" stroke-dasharray="201.06" stroke-dashoffset="201.06" />
+            </svg>
+            <span id="dashCircleText" class="absolute text-base font-black text-white">0%</span>
           </div>
           <div>
-            <h2 class="text-base md:text-lg font-bold text-white">Today's Discipline Progress</h2>
-            <p class="text-[11px] text-slate-400">প্রতিদিনের অভ্যাস ও রুটিনের সামগ্রিক অগ্রগতি</p>
+            <div class="text-xs text-slate-400 font-semibold">Overall Completion</div>
+            <div class="text-lg font-black text-emerald-400" id="dashOverallScoreText">0% Complete</div>
+            <div class="text-[11px] text-slate-400 font-mono" id="dashTaskFraction">0 / 0 Tasks Done</div>
           </div>
         </div>
-        <div class="text-right">
-          <div class="text-2xl md:text-3xl font-black text-emerald-400" id="overallScoreText">0%</div>
-          <div class="text-[10px] text-slate-400 font-semibold" id="overallScoreSub">0 / 0 Tasks Done</div>
+      </div>
+
+      <div class="space-y-1.5">
+        <div class="flex justify-between text-xs font-semibold text-slate-300">
+          <span>Overall Day Progress</span>
+          <span id="dashLinearText" class="text-emerald-400">0%</span>
+        </div>
+        <div class="w-full bg-slate-950 rounded-full h-3.5 p-0.5 border border-slate-800">
+          <div id="dashLinearBar" class="bg-gradient-to-r from-emerald-500 via-teal-400 to-sky-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
         </div>
       </div>
 
-      <div class="w-full bg-slate-800/80 rounded-full h-3 overflow-hidden border border-slate-700/50">
-        <div id="overallProgressBar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
-      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+        
+        <div class="bg-slate-950/90 p-3 rounded-2xl border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-300 font-bold flex items-center gap-1.5">🕌 Prayer</span>
+            <span class="font-black text-emerald-400" id="catPrayerScore">0%</span>
+          </div>
+          <div class="w-full bg-slate-900 rounded-full h-1.5">
+            <div id="catPrayerBar" class="bg-emerald-500 h-full rounded-full transition-all" style="width: 0%"></div>
+          </div>
+          <div class="text-[10px] text-slate-400" id="catPrayerSub">0/5 Farz Completed</div>
+        </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1 text-xs">
-        <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800/80 flex items-center justify-between">
-          <span class="text-slate-400">🕌 Prayer (ফরজ)</span>
-          <span class="font-bold text-emerald-400" id="statFarzPrayer">0/5</span>
+        <div class="bg-slate-950/90 p-3 rounded-2xl border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-300 font-bold flex items-center gap-1.5">🌙 Sunnah</span>
+            <span class="font-black text-sky-400" id="catSunnahScore">0%</span>
+          </div>
+          <div class="w-full bg-slate-900 rounded-full h-1.5">
+            <div id="catSunnahBar" class="bg-sky-400 h-full rounded-full transition-all" style="width: 0%"></div>
+          </div>
+          <div class="text-[10px] text-slate-400" id="catSunnahSub">0/5 Sunnah Completed</div>
         </div>
-        <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800/80 flex items-center justify-between">
-          <span class="text-slate-400">🌙 Sunnah</span>
-          <span class="font-bold text-sky-400" id="statSunnahPrayer">0/5</span>
+
+        <div class="bg-slate-950/90 p-3 rounded-2xl border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-300 font-bold flex items-center gap-1.5">🏋️ Workout</span>
+            <span class="font-black" id="catWorkoutScore">Not Done</span>
+          </div>
+          <div class="w-full bg-slate-900 rounded-full h-1.5">
+            <div id="catWorkoutBar" class="bg-amber-400 h-full rounded-full transition-all" style="width: 0%"></div>
+          </div>
+          <div class="text-[10px] text-slate-400" id="catWorkoutSub">Pending</div>
         </div>
-        <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800/80 flex items-center justify-between">
-          <span class="text-slate-400">🏋️ Workout</span>
-          <span class="font-bold text-amber-400" id="statWorkout">Not Done</span>
+
+        <div class="bg-slate-950/90 p-3 rounded-2xl border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-300 font-bold flex items-center gap-1.5">🚶 Walking</span>
+            <span class="font-black text-teal-400" id="catStepsScore">0%</span>
+          </div>
+          <div class="w-full bg-slate-900 rounded-full h-1.5">
+            <div id="catStepsBar" class="bg-teal-400 h-full rounded-full transition-all" style="width: 0%"></div>
+          </div>
+          <div class="text-[10px] text-slate-400" id="catStepsSub">0 / 8,000 Steps</div>
         </div>
-        <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800/80 flex items-center justify-between">
-          <span class="text-slate-400">📱 Discipline</span>
-          <span class="font-bold text-indigo-400" id="statHabits">0/4</span>
+
+        <div class="bg-slate-950/90 p-3 rounded-2xl border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-300 font-bold flex items-center gap-1.5">📚 Learning</span>
+            <span class="font-black text-indigo-400" id="catLearnScore">0%</span>
+          </div>
+          <div class="w-full bg-slate-900 rounded-full h-1.5">
+            <div id="catLearnBar" class="bg-indigo-400 h-full rounded-full transition-all" style="width: 0%"></div>
+          </div>
+          <div class="text-[10px] text-slate-400" id="catLearnSub">Reading / Study</div>
         </div>
+
+        <div class="bg-slate-950/90 p-3 rounded-2xl border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-300 font-bold flex items-center gap-1.5">😴 Sleep</span>
+            <span class="font-black text-purple-400" id="catSleepScore">0%</span>
+          </div>
+          <div class="w-full bg-slate-900 rounded-full h-1.5">
+            <div id="catSleepBar" class="bg-purple-400 h-full rounded-full transition-all" style="width: 0%"></div>
+          </div>
+          <div class="text-[10px] text-slate-400" id="catSleepSub">11:00 PM Routine</div>
+        </div>
+
+        <div class="bg-slate-950/90 p-3 rounded-2xl border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-300 font-bold flex items-center gap-1.5">🧠 Reflection</span>
+            <span class="font-black text-amber-400" id="catRefScore">0%</span>
+          </div>
+          <div class="w-full bg-slate-900 rounded-full h-1.5">
+            <div id="catRefBar" class="bg-amber-400 h-full rounded-full transition-all" style="width: 0%"></div>
+          </div>
+          <div class="text-[10px] text-slate-400" id="catRefSub">Night Audit</div>
+        </div>
+
+        <div class="bg-slate-950/90 p-3 rounded-2xl border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-300 font-bold flex items-center gap-1.5">📱 Discipline</span>
+            <span class="font-black text-rose-400" id="catPhoneScore">0%</span>
+          </div>
+          <div class="w-full bg-slate-900 rounded-full h-1.5">
+            <div id="catPhoneBar" class="bg-rose-400 h-full rounded-full transition-all" style="width: 0%"></div>
+          </div>
+          <div class="text-[10px] text-slate-400" id="catPhoneSub">10:30 PM Cutoff</div>
+        </div>
+
       </div>
     </section>
 
     <div class="flex overflow-x-auto gap-2 pb-2 custom-scrollbar border-b border-slate-800">
       <button onclick="switchTab('daily')" class="tab-btn active-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" data-tab="daily">
-        <i data-lucide="calendar" class="w-4 h-4"></i> Daily Routine & Prayer
+        <i data-lucide="check-square" class="w-4 h-4"></i> Tasks & Prayer Tracking
       </button>
       <button onclick="switchTab('workout')" class="tab-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap text-slate-400" data-tab="workout">
         <i data-lucide="dumbbell" class="w-4 h-4"></i> Workout & Steps
@@ -95,78 +184,93 @@
         <i data-lucide="trending-up" class="w-4 h-4"></i> Trading Journal
       </button>
       <button onclick="switchTab('weekly')" class="tab-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap text-slate-400" data-tab="weekly">
-        <i data-lucide="bar-chart-2" class="w-4 h-4"></i> Weekly & History
+        <i data-lucide="bar-chart-3" class="w-4 h-4"></i> 📅 Weekly & Progress History
       </button>
     </div>
 
-    <section id="tab-daily" class="tab-content block space-y-5">
+    <section id="tab-daily" class="tab-content block space-y-6">
       
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 shadow-lg">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-          <h2 class="text-sm md:text-base font-bold flex items-center gap-2 text-emerald-400">
-            <i data-lucide="moon" class="w-4 h-4"></i> ৫ ওয়াক্ত নামাজ ও সুন্নত ট্র্যাকিং
-          </h2>
-          <span class="text-[11px] text-slate-400" id="prayerCountDisplay">0/10 সম্পন্ন</span>
+          <h3 class="text-sm md:text-base font-bold flex items-center gap-2 text-emerald-400">
+            <i data-lucide="moon" class="w-4 h-4"></i> ৫ ওয়াক্ত নামাজ ও সুন্নত
+          </h3>
+          <span class="text-xs font-mono text-slate-400" id="prayerRatio">0/10 Done</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
-            <div class="font-bold text-amber-400">🌅 ফজর</div>
-            <label class="flex items-center gap-2.5 cursor-pointer">
-              <input type="checkbox" id="p_fajr_sunnah" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
+          <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+            <div class="font-bold text-amber-400 flex items-center justify-between">
+              <span>🌅 ফজর</span>
+              <span class="text-[10px] text-slate-400">২ সুন্নত + ২ ফরজ</span>
+            </div>
+            <label class="flex items-center gap-2.5 cursor-pointer text-slate-300">
+              <input type="checkbox" id="p_fajr_sunnah" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
               <span>ফজরের সুন্নত (২ রাকাত)</span>
             </label>
-            <label class="flex items-center gap-2.5 cursor-pointer">
-              <input type="checkbox" id="p_fajr_farz" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
+            <label class="flex items-center gap-2.5 cursor-pointer text-slate-300">
+              <input type="checkbox" id="p_fajr_farz" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
               <span>ফজরের ফরজ (২ রাকাত)</span>
             </label>
           </div>
 
-          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
-            <div class="font-bold text-sky-400">☀️ যোহর</div>
-            <label class="flex items-center gap-2.5 cursor-pointer">
-              <input type="checkbox" id="p_dhuhr_sunnah_pre" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
+          <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+            <div class="font-bold text-sky-400 flex items-center justify-between">
+              <span>☀️ যোহর</span>
+              <span class="text-[10px] text-slate-400">৪ সুন্নত + ৪ ফরজ + ২ সুন্নত</span>
+            </div>
+            <label class="flex items-center gap-2.5 cursor-pointer text-slate-300">
+              <input type="checkbox" id="p_dhuhr_sunnah_pre" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
               <span>যোহরের আগের সুন্নত (৪ রাকাত)</span>
             </label>
-            <label class="flex items-center gap-2.5 cursor-pointer">
-              <input type="checkbox" id="p_dhuhr_farz" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
+            <label class="flex items-center gap-2.5 cursor-pointer text-slate-300">
+              <input type="checkbox" id="p_dhuhr_farz" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
               <span>যোহরের ফরজ (৪ রাকাত)</span>
             </label>
-            <label class="flex items-center gap-2.5 cursor-pointer">
-              <input type="checkbox" id="p_dhuhr_sunnah_post" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
+            <label class="flex items-center gap-2.5 cursor-pointer text-slate-300">
+              <input type="checkbox" id="p_dhuhr_sunnah_post" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
               <span>যোহরের পরের সুন্নত (২ রাকাত)</span>
             </label>
           </div>
 
-          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
-            <div class="font-bold text-orange-400">🌤️ আসর</div>
-            <label class="flex items-center gap-2.5 cursor-pointer">
-              <input type="checkbox" id="p_asr_farz" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
+          <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+            <div class="font-bold text-orange-400 flex items-center justify-between">
+              <span>🌤️ আসর</span>
+              <span class="text-[10px] text-slate-400">৪ ফরজ</span>
+            </div>
+            <label class="flex items-center gap-2.5 cursor-pointer text-slate-300">
+              <input type="checkbox" id="p_asr_farz" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
               <span>আসরের ফরজ (৪ রাকাত)</span>
             </label>
           </div>
 
-          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
-            <div class="font-bold text-rose-400">🌆 মাগরিব</div>
-            <label class="flex items-center gap-2.5 cursor-pointer">
-              <input type="checkbox" id="p_maghrib_farz" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
+          <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+            <div class="font-bold text-rose-400 flex items-center justify-between">
+              <span>🌆 মাগরিব</span>
+              <span class="text-[10px] text-slate-400">৩ ফরজ + ২ সুন্নত</span>
+            </div>
+            <label class="flex items-center gap-2.5 cursor-pointer text-slate-300">
+              <input type="checkbox" id="p_maghrib_farz" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
               <span>মাগরিবের ফরজ (৩ রাকাত)</span>
             </label>
-            <label class="flex items-center gap-2.5 cursor-pointer">
-              <input type="checkbox" id="p_maghrib_sunnah" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
+            <label class="flex items-center gap-2.5 cursor-pointer text-slate-300">
+              <input type="checkbox" id="p_maghrib_sunnah" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
               <span>মাগরিবের সুন্নত (২ রাকাত)</span>
             </label>
           </div>
 
-          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2 sm:col-span-2">
-            <div class="font-bold text-indigo-400">🌙 এশা</div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <label class="flex items-center gap-2.5 cursor-pointer">
-                <input type="checkbox" id="p_isha_farz" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
+          <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2 sm:col-span-2">
+            <div class="font-bold text-indigo-400 flex items-center justify-between">
+              <span>🌙 এশা</span>
+              <span class="text-[10px] text-slate-400">৪ ফরজ + ২ সুন্নত + বিতর</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <label class="flex items-center gap-2.5 cursor-pointer text-slate-300">
+                <input type="checkbox" id="p_isha_farz" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
                 <span>এশার ফরজ (৪ রাকাত)</span>
               </label>
-              <label class="flex items-center gap-2.5 cursor-pointer">
-                <input type="checkbox" id="p_isha_sunnah" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
+              <label class="flex items-center gap-2.5 cursor-pointer text-slate-300">
+                <input type="checkbox" id="p_isha_sunnah" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
                 <span>এশার সুন্নত (২ রাকাত)</span>
               </label>
             </div>
@@ -174,60 +278,66 @@
         </div>
       </div>
 
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-4">
-        <h2 class="text-sm md:text-base font-bold flex items-center gap-2 text-slate-200">
-          <i data-lucide="check-square" class="w-4 h-4 text-emerald-400"></i> Daily Habits & Routine Discipline
-        </h2>
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 shadow-lg">
+        <h3 class="text-sm md:text-base font-bold flex items-center gap-2 text-slate-200">
+          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> Daily Habits & Disciplines
+        </h3>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5 sm:col-span-2">
-            <div class="flex justify-between items-center">
-              <span class="font-semibold text-slate-300">🏋️ আজকের Workout Status</span>
-              <span id="workoutBadge" class="text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-slate-800 text-slate-400">Not Done</span>
+          <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2 sm:col-span-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-slate-300">🏋️ Workout Status (Daily Progress Integrated)</span>
+              <span id="habitWorkoutBadge" class="text-[10px] font-bold px-3 py-0.5 rounded-full bg-slate-800 text-slate-400">Not Done</span>
             </div>
-            <div class="flex gap-2 pt-1">
-              <button onclick="setDailyWorkoutStatus('completed')" class="flex-1 py-1.5 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 text-[11px] hover:border-emerald-500">☑ Completed</button>
-              <button onclick="setDailyWorkoutStatus('rest')" class="flex-1 py-1.5 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 text-[11px] hover:border-sky-500">😴 Rest Day</button>
-              <button onclick="setDailyWorkoutStatus('missed')" class="flex-1 py-1.5 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 text-[11px] hover:border-rose-500">✕ Not Done</button>
+            <div class="flex gap-2">
+              <button onclick="changeWorkoutState('completed')" class="flex-1 py-2 rounded-xl border border-slate-800 bg-slate-900 text-slate-200 font-semibold text-xs hover:border-emerald-500 transition-all">
+                ✓ Completed (+Score)
+              </button>
+              <button onclick="changeWorkoutState('rest')" class="flex-1 py-2 rounded-xl border border-slate-800 bg-slate-900 text-sky-400 font-semibold text-xs hover:border-sky-500 transition-all">
+                😴 Rest Day (No penalty)
+              </button>
+              <button onclick="changeWorkoutState('missed')" class="flex-1 py-2 rounded-xl border border-slate-800 bg-slate-900 text-rose-400 font-semibold text-xs hover:border-rose-500 transition-all">
+                ✕ Not Done
+              </button>
             </div>
           </div>
 
-          <label class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center gap-2.5 cursor-pointer">
-            <input type="checkbox" id="h_quran" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
+          <label class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" id="h_quran" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
             <span>📖 কুরআন তেলাওয়াত ও দোয়া</span>
           </label>
-          <label class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center gap-2.5 cursor-pointer">
-            <input type="checkbox" id="h_learning" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
+          <label class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" id="h_learning" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
             <span>📚 Learning / বই পড়া (২০+ মিনিট)</span>
           </label>
-          <label class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center gap-2.5 cursor-pointer">
-            <input type="checkbox" id="h_phone" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
-            <span>📵 রাত ১০:৩০ এ ফোন বন্ধ / ডিজিটাল ডিসিপ্লিন</span>
+          <label class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" id="h_phone" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
+            <span>📵 রাত ১০:৩০ এ ফোন ও গেমিং অফ</span>
           </label>
-          <label class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center gap-2.5 cursor-pointer">
-            <input type="checkbox" id="h_sleep" class="rounded accent-emerald-500 w-4 h-4" onchange="updateDailyProgress()">
+          <label class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" id="h_sleep" class="rounded accent-emerald-500 w-4 h-4" onchange="recalculateEverything()">
             <span>😴 রাত ১১:০০ টার মধ্যে ঘুম</span>
           </label>
         </div>
       </div>
 
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-4">
-        <h2 class="text-sm md:text-base font-bold flex items-center gap-2 text-slate-200">
-          <i data-lucide="edit-3" class="w-4 h-4 text-emerald-400"></i> Daily Reflection
-        </h2>
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 shadow-lg">
+        <h3 class="text-sm md:text-base font-bold flex items-center gap-2 text-slate-200">
+          <i data-lucide="edit-3" class="w-4 h-4 text-emerald-400"></i> Daily Reflection & Night Audit
+        </h3>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
           <div>
             <label class="block text-slate-400 mb-1">আজকে কী ভালো হলো?</label>
-            <textarea id="refGood" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-slate-200" placeholder="আজকের অর্জন..."></textarea>
+            <textarea id="refGood" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-200" placeholder="আজকের অর্জন ও পজিটিভ পয়েন্ট..."></textarea>
           </div>
           <div>
-            <label class="block text-slate-400 mb-1">আজকে কোথায় ভুল হলো বা কঠিন ছিল?</label>
-            <textarea id="refMistake" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-slate-200" placeholder="কোথায় ডিসিপ্লিন ছুটে গিয়েছিল..."></textarea>
+            <label class="block text-slate-400 mb-1">আজকে কোথায় ভুল বা আলসেমি হলো?</label>
+            <textarea id="refMistake" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-200" placeholder="যেখানে ডিসিপ্লিন ভাঙা হলো..."></textarea>
           </div>
           <div class="sm:col-span-2">
-            <label class="block text-slate-400 mb-1">আগামীকাল কোন ১টি বিষয় improve করবো?</label>
-            <input type="text" id="refTomorrow" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-slate-200" placeholder="আগামীকালের মূল ফোকাস...">
+            <label class="block text-slate-400 mb-1">আগামীকাল কোন বিষয়টি ফোকাস করে improve করবো?</label>
+            <input type="text" id="refTomorrow" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-200" placeholder="আগামীকালের মূল টার্গেট...">
           </div>
         </div>
 
@@ -236,239 +346,238 @@
             <span class="text-slate-400">Mood (১-১০):</span>
             <input type="number" id="dailyMood" min="1" max="10" value="8" class="w-14 bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-center text-xs">
           </div>
-          <button onclick="saveNightReflection()" class="bg-emerald-600 hover:bg-emerald-500 font-bold text-white text-xs px-5 py-2.5 rounded-xl transition-all">
+          <button onclick="saveDailyReflection()" class="bg-emerald-600 hover:bg-emerald-500 font-bold text-white text-xs px-5 py-2.5 rounded-xl transition-all">
             Save Reflection
           </button>
         </div>
       </div>
+
     </section>
 
-    <section id="tab-workout" class="tab-content hidden space-y-5">
+    <section id="tab-workout" class="tab-content hidden space-y-6">
       
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-3">
-        <h2 class="text-sm md:text-base font-bold flex items-center gap-2 text-emerald-400">
-          <i data-lucide="footprints" class="w-4 h-4"></i> Walking / Steps Calculation
-        </h2>
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 shadow-lg">
+        <h3 class="text-sm md:text-base font-bold text-emerald-400 flex items-center gap-2">
+          <i data-lucide="footprints" class="w-4 h-4"></i> Walking / Steps Auto Calculation
+        </h3>
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
           <div>
             <label class="block text-[11px] text-slate-400 mb-1">Total Steps</label>
-            <input type="number" id="stepInput" placeholder="e.g. 8000" oninput="calculateSteps()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs font-semibold">
+            <input type="number" id="stepInput" placeholder="e.g. 8000" oninput="calculateSteps()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-semibold">
           </div>
-          <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-center">
+          <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-center">
             <div class="text-[10px] text-slate-400">Approx. Distance</div>
             <div class="text-sm font-bold text-sky-400" id="stepDistance">~0.0 km</div>
           </div>
-          <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-center">
+          <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-center">
             <div class="text-[10px] text-slate-400">Approx. Time</div>
             <div class="text-sm font-bold text-amber-400" id="stepTime">~0 min</div>
           </div>
-          <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-center">
+          <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-center">
             <div class="text-[10px] text-slate-400">Approx. Burn</div>
             <div class="text-sm font-bold text-rose-400" id="stepCalories">~0 kcal</div>
           </div>
         </div>
       </div>
 
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 shadow-lg">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
           <div>
-            <h2 class="text-sm md:text-base font-bold">Detailed Exercise Log</h2>
-            <p class="text-[11px] text-slate-400">Track sets, reps & progression.</p>
+            <h3 class="text-sm md:text-base font-bold">Workout Progression & Sets</h3>
+            <p class="text-[11px] text-slate-400">Daily exercise details and volume.</p>
           </div>
-          <select id="workoutPageStatus" onchange="handleWorkoutStatusChange(this.value)" class="bg-slate-950 border border-slate-700 text-xs rounded-xl p-2 font-semibold text-slate-200">
+          <select id="workoutPageSelect" onchange="handleWorkoutSelect(this.value)" class="bg-slate-950 border border-slate-700 text-xs rounded-xl p-2 font-semibold">
             <option value="completed">🏋️ Completed</option>
             <option value="rest">😴 Rest Day</option>
             <option value="missed">✕ Not Done</option>
           </select>
         </div>
 
-        <div id="restDayNotice" class="hidden bg-sky-950/20 border border-sky-500/30 p-6 rounded-xl text-center space-y-2">
+        <div id="workoutRestAlert" class="hidden bg-sky-950/20 border border-sky-500/30 p-6 rounded-2xl text-center space-y-1">
           <div class="text-3xl">😴</div>
-          <h3 class="text-sm font-bold text-sky-300">Recovery Day Active</h3>
-          <p class="text-xs text-slate-400">"আজ workout নেই। শরীরকে recovery দেওয়ার দিন।"</p>
+          <div class="text-sm font-bold text-sky-300">Rest & Recovery Day</div>
+          <p class="text-xs text-slate-400">"শরীরকে রিকভারি দিন। আজ কোনো ওয়ার্কআউট পেনাল্টি হবে না।"</p>
         </div>
 
-        <div id="workoutFormArea" class="space-y-4">
+        <div id="workoutInputsArea" class="space-y-4">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
+            <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-2">
               <div class="flex justify-between items-center text-xs font-bold text-slate-300">
                 <span>💪 Push-ups</span>
                 <span class="text-emerald-400" id="totalPushupsBadge">Total: 0</span>
               </div>
               <div class="grid grid-cols-2 gap-2">
-                <div>
-                  <label class="block text-[10px] text-slate-400">Sets</label>
-                  <input type="number" id="w_push_sets" value="4" oninput="calcPushups()" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-1.5 text-xs">
-                </div>
-                <div>
-                  <label class="block text-[10px] text-slate-400">Reps per set</label>
-                  <input type="number" id="w_push_reps" placeholder="e.g. 15" oninput="calcPushups()" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-1.5 text-xs">
-                </div>
+                <input type="number" id="w_push_sets" value="4" oninput="calcReps()" placeholder="Sets" class="bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs">
+                <input type="number" id="w_push_reps" placeholder="Reps/set" oninput="calcReps()" class="bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs">
               </div>
             </div>
 
-            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
+            <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-2">
               <div class="flex justify-between items-center text-xs font-bold text-slate-300">
                 <span>🦵 Squats</span>
                 <span class="text-emerald-400" id="totalSquatsBadge">Total: 0</span>
               </div>
               <div class="grid grid-cols-2 gap-2">
-                <div>
-                  <label class="block text-[10px] text-slate-400">Sets</label>
-                  <input type="number" id="w_squat_sets" value="3" oninput="calcSquats()" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-1.5 text-xs">
-                </div>
-                <div>
-                  <label class="block text-[10px] text-slate-400">Reps per set</label>
-                  <input type="number" id="w_squat_reps" placeholder="e.g. 20" oninput="calcSquats()" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-1.5 text-xs">
-                </div>
+                <input type="number" id="w_squat_sets" value="3" oninput="calcReps()" placeholder="Sets" class="bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs">
+                <input type="number" id="w_squat_reps" placeholder="Reps/set" oninput="calcReps()" class="bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs">
               </div>
             </div>
 
-            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+            <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-1">
               <label class="block text-xs font-bold text-slate-300">🧘 Plank</label>
-              <input type="text" id="w_plank" placeholder="e.g. 2 minutes" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs">
+              <input type="text" id="w_plank" placeholder="e.g. 2 min" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs">
             </div>
 
-            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+            <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-1">
               <label class="block text-xs font-bold text-slate-300">🏃 Running / Cardio</label>
               <div class="grid grid-cols-2 gap-2">
-                <input type="number" id="w_run_time" placeholder="Time (min)" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs">
-                <input type="number" step="0.1" id="w_run_dist" placeholder="Dist (km)" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs">
+                <input type="number" id="w_run_time" placeholder="Time (min)" class="bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs">
+                <input type="number" step="0.1" id="w_run_dist" placeholder="Dist (km)" class="bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs">
               </div>
-            </div>
-
-            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1 sm:col-span-2">
-              <label class="block text-xs font-bold text-slate-300">🏋️ Other Exercises</label>
-              <input type="text" id="w_other" placeholder="e.g. Pull ups: 3x8, Karate: 20 min..." class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs">
             </div>
           </div>
         </div>
 
-        <button onclick="saveWorkoutLog()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold text-white text-xs py-2.5 rounded-xl transition-all">
+        <button onclick="saveWorkoutPerformance()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold text-white text-xs py-3 rounded-xl transition-all">
           Save Workout Performance
         </button>
       </div>
-
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
-        <h3 class="text-xs font-bold text-slate-300">📊 Recent Workout History</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-slate-300">
-            <thead class="text-slate-500 uppercase border-b border-slate-800 text-[10px]">
-              <tr>
-                <th class="py-2">Date</th>
-                <th class="py-2">Status</th>
-                <th class="py-2">Push-up</th>
-                <th class="py-2">Squat</th>
-                <th class="py-2">Plank/Run</th>
-                <th class="py-2">Progression</th>
-              </tr>
-            </thead>
-            <tbody id="workoutHistoryTableBody"></tbody>
-          </table>
-        </div>
-      </div>
     </section>
 
-    <section id="tab-trading" class="tab-content hidden space-y-5">
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-4">
+    <section id="tab-trading" class="tab-content hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 shadow-lg">
         <div class="border-b border-slate-800 pb-3">
-          <h2 class="text-sm md:text-base font-bold text-sky-400 flex items-center gap-2">
-            <i data-lucide="trending-up" class="w-4 h-4"></i> Trading Discipline & Journal
-          </h2>
-          <p class="text-[11px] text-slate-400">Track discipline, emotional control, and lessons learned.</p>
+          <h3 class="text-sm md:text-base font-bold text-sky-400 flex items-center gap-2">
+            <i data-lucide="trending-up" class="w-4 h-4"></i> Trading Discipline & Daily Journal
+          </h3>
+          <p class="text-[11px] text-slate-400">Rules obedience and emotional trade control.</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
           <div>
-            <label class="block text-slate-400 mb-1">১. Trading-এ ব্যয়কৃত সময় (ঘণ্টা / মিনিট)</label>
-            <input type="text" id="tr_time" placeholder="e.g. 1 hr 30 min" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200">
+            <label class="block text-slate-400 mb-1">Trading Time Spent</label>
+            <input type="text" id="tr_time" placeholder="e.g. 1 hr 30 min" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs">
           </div>
           <div>
-            <label class="block text-slate-400 mb-1">২. আজ কয়টি Trade নিয়েছেন?</label>
-            <input type="number" id="tr_count" placeholder="e.g. 2" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200">
+            <label class="block text-slate-400 mb-1">Total Trades Taken</label>
+            <input type="number" id="tr_count" placeholder="e.g. 2" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs">
           </div>
 
-          <div class="sm:col-span-2 bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2">
-            <label class="flex items-center gap-2.5 font-semibold text-amber-300 cursor-pointer">
-              <input type="checkbox" id="tr_emotional" class="rounded accent-rose-500 w-4 h-4" onchange="toggleEmotionalNote()">
-              <span>⚠️ আজ কি কোনো Emotional / FOMO Trade হয়েছিল?</span>
+          <div class="sm:col-span-2 bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+            <label class="flex items-center gap-2.5 font-bold text-amber-300 cursor-pointer">
+              <input type="checkbox" id="tr_emotional" class="rounded accent-rose-500 w-4 h-4" onchange="toggleEmotionalBox()">
+              <span>⚠️ আজ কি কোনো Emotional / FOMO Trade নেওয়া হয়েছে?</span>
             </label>
             <div id="tr_emotional_box" class="hidden">
-              <textarea id="tr_emotional_reason" rows="2" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-slate-200" placeholder="কেন Emotional Trade নিয়েছিলেন?"></textarea>
+              <textarea id="tr_emotional_reason" rows="2" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-xs" placeholder="কেন Emotional Trade নিয়েছিলেন?"></textarea>
             </div>
           </div>
 
           <div>
-            <label class="block text-slate-400 mb-1">৩. শেখার পেছনে কত সময় দিয়েছেন?</label>
-            <input type="text" id="tr_learn_time" placeholder="e.g. 40 min" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200">
+            <label class="block text-slate-400 mb-1">শেখার পেছনে কত সময় দিয়েছেন?</label>
+            <input type="text" id="tr_learn_time" placeholder="e.g. 45 min" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs">
           </div>
           <div>
-            <label class="block text-slate-400 mb-1">৪. Market আজ কী নতুন শিখিয়েছে?</label>
-            <input type="text" id="tr_market_lesson" placeholder="মার্কেট শিক্ষা..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200">
+            <label class="block text-slate-400 mb-1">Market আজ কী শেখালো?</label>
+            <input type="text" id="tr_market_lesson" placeholder="মার্কেট লেসন..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs">
           </div>
-          <div>
-            <label class="block text-slate-400 mb-1">৫. আজকের সবচেয়ে বড় ভুল কী ছিল?</label>
-            <textarea id="tr_mistake" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200" placeholder="কোথায় রুলস ভাঙা হয়েছে..."></textarea>
-          </div>
-          <div>
-            <label class="block text-slate-400 mb-1">৬. আগামীকাল Trading-এ কী improve করবেন?</label>
-            <textarea id="tr_tomorrow" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200" placeholder="আগামীকালের ডিসিপ্লিন প্ল্যান..."></textarea>
+          <div class="sm:col-span-2">
+            <label class="block text-slate-400 mb-1">আগামীকালের Trading Improvement Plan</label>
+            <textarea id="tr_tomorrow" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs" placeholder="রুলস ও ডিসিপ্লিন প্ল্যান..."></textarea>
           </div>
         </div>
 
-        <button onclick="saveTradingLog()" class="w-full bg-sky-600 hover:bg-sky-500 font-bold text-white text-xs py-2.5 rounded-xl transition-all">
+        <button onclick="saveTradingJournal()" class="w-full bg-sky-600 hover:bg-sky-500 font-bold text-white text-xs py-3 rounded-xl transition-all">
           Save Trading Entry
         </button>
       </div>
 
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
-        <h3 class="text-xs font-bold text-slate-300">📜 Recent Trading Logs</h3>
-        <div id="tradingHistoryList" class="space-y-2 text-xs"></div>
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-3 shadow-lg">
+        <h4 class="text-xs font-bold text-slate-300">📜 Recent Trading Logs</h4>
+        <div id="tradingHistoryContainer" class="space-y-2 text-xs"></div>
       </div>
     </section>
 
-    <section id="tab-weekly" class="tab-content hidden space-y-5">
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-5">
+    <section id="tab-weekly" class="tab-content hidden space-y-6">
+      
+      <div class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-5 md:p-6 space-y-5 shadow-2xl">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
           <div>
-            <h2 class="text-sm md:text-base font-bold">Weekly Progress & History</h2>
-            <p class="text-[11px] text-slate-400">গত ৭ দিনের ধারাবাহিকতা ও আগের দিনের ডাটা</p>
+            <span class="text-[11px] font-bold text-sky-400 uppercase tracking-wider bg-sky-500/10 px-2.5 py-1 rounded-full border border-sky-500/20">
+              📅 Weekly Progress
+            </span>
+            <h3 class="text-lg md:text-xl font-black text-white pt-1">This Week: <span id="thisWeekOverallScore" class="text-emerald-400">0%</span></h3>
+            <p class="text-xs text-slate-400">সপ্তাহের সামগ্রিক ধারাবাহিকতা এবং কোন দিন কেমন গেল তার চিত্র।</p>
           </div>
-          <span class="text-xs bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-xl border border-emerald-500/30 font-bold" id="weeklyOverallAvg">
-            Avg: 0%
-          </span>
         </div>
 
-        <div class="space-y-2">
-          <h3 class="text-xs font-bold text-slate-300">📅 Day-by-Day Discipline (Last 7 Days)</h3>
-          <div id="weeklyDaysBreakdown" class="space-y-2 text-xs"></div>
+        <div class="space-y-2.5">
+          <div class="text-xs font-bold text-slate-300 flex justify-between">
+            <span>Day-by-Day Discipline</span>
+            <span class="text-slate-400">Score (%)</span>
+          </div>
+          <div id="weeklyDaysList" class="space-y-2 text-xs"></div>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center" id="weeklyCardsGrid"></div>
-
-        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
-          <h3 class="text-xs font-bold text-emerald-400">🏋️ Workout Summary</h3>
-          <p class="text-xs text-slate-300" id="weeklyWorkoutSummary">তথ্য লোড হচ্ছে...</p>
-        </div>
-
-        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
-          <h3 class="text-xs font-bold text-sky-400">📊 Trading Summary</h3>
-          <p class="text-xs text-slate-300" id="weeklyTradingSummary">তথ্য লোড হচ্ছে...</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center pt-2">
+          <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+            <div class="text-[10px] text-slate-400">Weekly Average</div>
+            <div class="text-base font-black text-emerald-400" id="wkAvgText">0%</div>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+            <div class="text-[10px] text-slate-400">Workout Done</div>
+            <div class="text-base font-black text-sky-400" id="wkWkDone">0 Days</div>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+            <div class="text-[10px] text-slate-400">Planned Rest</div>
+            <div class="text-base font-black text-amber-400" id="wkRestDone">0 Days</div>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+            <div class="text-[10px] text-slate-400">Total Steps</div>
+            <div class="text-base font-black text-rose-400" id="wkStepsDone">0</div>
+          </div>
         </div>
       </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 shadow-lg">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h3 class="text-sm md:text-base font-bold flex items-center gap-2 text-slate-200">
+            <i data-lucide="history" class="w-4 h-4 text-emerald-400"></i> 📈 All Progress History (Never Lost)
+          </h3>
+          <span class="text-[11px] text-slate-400">Auto Saved</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="text-slate-500 uppercase border-b border-slate-800 text-[10px]">
+              <tr>
+                <th class="py-2.5">Date</th>
+                <th class="py-2.5">Day</th>
+                <th class="py-2.5">Progress Score</th>
+                <th class="py-2.5">Prayer</th>
+                <th class="py-2.5">Workout</th>
+                <th class="py-2.5">Steps</th>
+                <th class="py-2.5">Discipline Status</th>
+              </tr>
+            </thead>
+            <tbody id="fullHistoryTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
     </section>
 
   </main>
 
   <script>
-    const STORAGE_KEY = 'DISCIPLINE_OS_FINAL_2026';
+    const STORAGE_KEY = 'DISCIPLINE_OS_ULTIMATE_DATA';
 
     function getTodayKey() {
       const d = new Date();
       return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     }
 
-    function getPreviousDateKey(offset = 1) {
+    function getDateKeyOffset(offset = 0) {
       const d = new Date();
       d.setDate(d.getDate() - offset);
       return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -523,111 +632,169 @@
         btn.classList.remove('text-slate-400');
       }
 
-      if (tabId === 'daily') loadDailyData();
-      if (tabId === 'workout') loadWorkoutData();
-      if (tabId === 'trading') loadTradingData();
-      if (tabId === 'weekly') renderWeeklySummary();
+      if (tabId === 'daily') loadDailyValues();
+      if (tabId === 'workout') loadWorkoutValues();
+      if (tabId === 'trading') loadTradingValues();
+      if (tabId === 'weekly') renderWeeklyAndHistory();
 
       lucide.createIcons();
     }
 
-    // --- ⭐ CORE PROGRESS CALCULATION & DASHBOARD ⭐ ---
-    const farzPrayerKeys = ['p_fajr_farz', 'p_dhuhr_farz', 'p_asr_farz', 'p_maghrib_farz', 'p_isha_farz'];
-    const sunnahPrayerKeys = ['p_fajr_sunnah', 'p_dhuhr_sunnah_pre', 'p_dhuhr_sunnah_post', 'p_maghrib_sunnah', 'p_isha_sunnah'];
-    const habitKeys = ['h_quran', 'h_learning', 'h_phone', 'h_sleep'];
+    // --- RECALCULATE CORE DASHBOARD & HABITS ---
+    const farzKeys = ['p_fajr_farz', 'p_dhuhr_farz', 'p_asr_farz', 'p_maghrib_farz', 'p_isha_farz'];
+    const sunnahKeys = ['p_fajr_sunnah', 'p_dhuhr_sunnah_pre', 'p_dhuhr_sunnah_post', 'p_maghrib_sunnah', 'p_isha_sunnah'];
+    const habitCheckKeys = ['h_quran', 'h_learning', 'h_phone', 'h_sleep'];
 
-    function updateDailyProgress() {
+    function recalculateEverything() {
       const day = appState.days[today];
-      
-      // Collect Prayers
-      const prayers = {};
+
+      // 1. Farz & Sunnah
       let farzDone = 0;
       let sunnahDone = 0;
+      const prayers = {};
 
-      farzPrayerKeys.forEach(k => {
+      farzKeys.forEach(k => {
         const checked = document.getElementById(k).checked;
         prayers[k] = checked;
         if (checked) farzDone++;
       });
 
-      sunnahPrayerKeys.forEach(k => {
+      sunnahKeys.forEach(k => {
         const checked = document.getElementById(k).checked;
         prayers[k] = checked;
         if (checked) sunnahDone++;
       });
       day.prayers = prayers;
 
-      // Collect Habits
+      // 2. Habits
       const habits = {};
-      let habitsDone = 0;
-      habitKeys.forEach(k => {
+      habitCheckKeys.forEach(k => {
         const checked = document.getElementById(k).checked;
         habits[k] = checked;
-        if (checked) habitsDone++;
       });
       day.habits = habits;
 
-      // Workout Calculation (Rest Day does not penalize score)
+      const quranDone = habits['h_quran'] ? 1 : 0;
+      const learnDone = habits['h_learning'] ? 1 : 0;
+      const phoneDone = habits['h_phone'] ? 1 : 0;
+      const sleepDone = habits['h_sleep'] ? 1 : 0;
+      const refDone = (day.reflection && day.reflection.good) ? 1 : 0;
+      const stepsCount = day.steps || 0;
+      const stepsDone = stepsCount >= 8000 ? 1 : (stepsCount / 8000);
+
+      // 3. Workout Logic (Rest Day Protected)
       const wStatus = day.workoutStatus || 'missed';
-      let totalTasks = 10 + 4; // 10 prayers + 4 habits
-      let completedTasks = farzDone + sunnahDone + habitsDone;
+      let totalDenominator = 5 + 5 + 4 + 1 + 1; // 5 Farz + 5 Sunnah + 4 Habits + Ref + Steps
+      let earnedPoints = farzDone + sunnahDone + quranDone + learnDone + phoneDone + sleepDone + refDone + Math.min(1, stepsDone);
 
       if (wStatus === 'completed') {
-        totalTasks += 1;
-        completedTasks += 1;
+        totalDenominator += 1;
+        earnedPoints += 1;
       } else if (wStatus === 'missed') {
-        totalTasks += 1; // Counted in total, so score drops if not completed
+        totalDenominator += 1; // Counts against total
       }
-      // If 'rest', neither totalTasks nor completedTasks adds, so score is protected!
+      // If 'rest', excluded from totalDenominator so score doesn't drop!
 
-      const percentage = Math.round((completedTasks / totalTasks) * 100);
-      day.dailyScore = percentage;
+      const overallPercent = Math.min(100, Math.round((earnedPoints / totalDenominator) * 100));
+      day.dailyScore = overallPercent;
       saveState(appState);
 
-      // Update UI Dashboard
-      document.getElementById('overallScoreText').innerText = `${percentage}%`;
-      document.getElementById('overallScoreSub').innerText = `${completedTasks} / ${totalTasks} Tasks Done`;
-      document.getElementById('overallProgressBar').style.width = `${percentage}%`;
+      // --- UPDATE UI DASHBOARD (HERO) ---
+      // Circle Progress
+      const circle = document.getElementById('dashCircleProgress');
+      const circumference = 2 * Math.PI * 32; // ~201.06
+      const offset = circumference - (overallPercent / 100) * circumference;
+      circle.style.strokeDashoffset = offset;
+      document.getElementById('dashCircleText').innerText = `${overallPercent}%`;
 
-      document.getElementById('statFarzPrayer').innerText = `${farzDone}/5`;
-      document.getElementById('statSunnahPrayer').innerText = `${sunnahDone}/5`;
-      document.getElementById('statHabits').innerText = `${habitsDone}/4`;
-      document.getElementById('prayerCountDisplay').innerText = `${farzDone + sunnahDone}/10 সম্পন্ন`;
+      document.getElementById('dashOverallScoreText').innerText = `${overallPercent}% Complete`;
+      document.getElementById('dashLinearText').innerText = `${overallPercent}%`;
+      document.getElementById('dashLinearBar').style.width = `${overallPercent}%`;
+      document.getElementById('dashTaskFraction').innerText = `${Math.round(earnedPoints)} / ${totalDenominator} Target Units`;
 
-      const statW = document.getElementById('statWorkout');
+      // Breakdown Cards Updates
+      // Prayer
+      const farzPct = Math.round((farzDone / 5) * 100);
+      document.getElementById('catPrayerScore').innerText = `${farzPct}%`;
+      document.getElementById('catPrayerBar').style.width = `${farzPct}%`;
+      document.getElementById('catPrayerSub').innerText = `${farzDone}/5 Farz Done`;
+
+      // Sunnah
+      const sunnahPct = Math.round((sunnahDone / 5) * 100);
+      document.getElementById('catSunnahScore').innerText = `${sunnahPct}%`;
+      document.getElementById('catSunnahBar').style.width = `${sunnahPct}%`;
+      document.getElementById('catSunnahSub').innerText = `${sunnahDone}/5 Sunnah Done`;
+
+      // Workout
+      const catWScore = document.getElementById('catWorkoutScore');
+      const catWBar = document.getElementById('catWorkoutBar');
+      const catWSub = document.getElementById('catWorkoutSub');
       if (wStatus === 'completed') {
-        statW.innerText = 'Completed ✓';
-        statW.className = 'font-bold text-emerald-400';
+        catWScore.innerText = '100%';
+        catWScore.className = 'font-black text-emerald-400';
+        catWBar.style.width = '100%';
+        catWBar.className = 'bg-emerald-500 h-full rounded-full transition-all';
+        catWSub.innerText = 'Completed ✓';
       } else if (wStatus === 'rest') {
-        statW.innerText = 'Rest Day 😴';
-        statW.className = 'font-bold text-sky-400';
+        catWScore.innerText = 'Rest 😴';
+        catWScore.className = 'font-black text-sky-400';
+        catWBar.style.width = '100%';
+        catWBar.className = 'bg-sky-400 h-full rounded-full transition-all';
+        catWSub.innerText = 'Planned Recovery';
       } else {
-        statW.innerText = 'Not Done ✕';
-        statW.className = 'font-bold text-rose-400';
+        catWScore.innerText = '0%';
+        catWScore.className = 'font-black text-rose-400';
+        catWBar.style.width = '0%';
+        catWBar.className = 'bg-rose-400 h-full rounded-full transition-all';
+        catWSub.innerText = 'Not Done ✕';
       }
+
+      // Steps
+      const stepPct = Math.min(100, Math.round((stepsCount / 8000) * 100));
+      document.getElementById('catStepsScore').innerText = `${stepPct}%`;
+      document.getElementById('catStepsBar').style.width = `${stepPct}%`;
+      document.getElementById('catStepsSub').innerText = `${stepsCount.toLocaleString()} / 8,000 Steps`;
+
+      // Learn
+      document.getElementById('catLearnScore').innerText = learnDone ? '100%' : '0%';
+      document.getElementById('catLearnBar').style.width = learnDone ? '100%' : '0%';
+
+      // Sleep
+      document.getElementById('catSleepScore').innerText = sleepDone ? '100%' : '0%';
+      document.getElementById('catSleepBar').style.width = sleepDone ? '100%' : '0%';
+
+      // Reflection
+      document.getElementById('catRefScore').innerText = refDone ? '100%' : '0%';
+      document.getElementById('catRefBar').style.width = refDone ? '100%' : '0%';
+
+      // Phone Discipline
+      document.getElementById('catPhoneScore').innerText = phoneDone ? '100%' : '0%';
+      document.getElementById('catPhoneBar').style.width = phoneDone ? '100%' : '0%';
+
+      document.getElementById('prayerRatio').innerText = `${farzDone + sunnahDone}/10 Done`;
     }
 
-    function setDailyWorkoutStatus(status) {
+    function changeWorkoutState(status) {
       appState.days[today].workoutStatus = status;
       updateWorkoutBadge(status);
-      updateDailyProgress();
+      recalculateEverything();
     }
 
     function updateWorkoutBadge(status) {
-      const badge = document.getElementById('workoutBadge');
+      const badge = document.getElementById('habitWorkoutBadge');
       if (status === 'completed') {
         badge.innerText = 'Completed ✓';
-        badge.className = 'text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+        badge.className = 'text-[10px] font-bold px-3 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
       } else if (status === 'rest') {
         badge.innerText = 'Rest Day 😴';
-        badge.className = 'text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-sky-500/20 text-sky-400 border border-sky-500/30';
+        badge.className = 'text-[10px] font-bold px-3 py-0.5 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/30';
       } else {
         badge.innerText = 'Not Done ✕';
-        badge.className = 'text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30';
+        badge.className = 'text-[10px] font-bold px-3 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30';
       }
     }
 
-    function saveNightReflection() {
+    function saveDailyReflection() {
       appState.days[today].reflection = {
         good: document.getElementById('refGood').value,
         mistake: document.getElementById('refMistake').value,
@@ -635,20 +802,21 @@
         mood: document.getElementById('dailyMood').value
       };
       saveState(appState);
-      alert('রিফ্লেকশন সংরক্ষিত হয়েছে!');
+      recalculateEverything();
+      alert('রিফ্লেকশন ডাটা সেভ হয়েছে!');
     }
 
-    function loadDailyData() {
+    function loadDailyValues() {
       const d = appState.days[today] || {};
       const prayers = d.prayers || {};
 
-      farzPrayerKeys.concat(sunnahPrayerKeys).forEach(k => {
+      farzKeys.concat(sunnahKeys).forEach(k => {
         const el = document.getElementById(k);
         if (el) el.checked = !!prayers[k];
       });
 
       const habits = d.habits || {};
-      habitKeys.forEach(k => {
+      habitCheckKeys.forEach(k => {
         const el = document.getElementById(k);
         if (el) el.checked = !!habits[k];
       });
@@ -661,7 +829,7 @@
       document.getElementById('refTomorrow').value = ref.tomorrow || '';
       document.getElementById('dailyMood').value = ref.mood || '8';
 
-      updateDailyProgress();
+      recalculateEverything();
     }
 
     // --- WORKOUT & WALKING ---
@@ -677,29 +845,28 @@
 
       appState.days[today].steps = steps;
       saveState(appState);
+      recalculateEverything();
     }
 
-    function handleWorkoutStatusChange(status) {
-      const isRest = status === 'rest';
-      document.getElementById('restDayNotice').classList.toggle('hidden', !isRest);
-      document.getElementById('workoutFormArea').classList.toggle('hidden', isRest);
-      setDailyWorkoutStatus(status);
+    function handleWorkoutSelect(val) {
+      const isRest = val === 'rest';
+      document.getElementById('workoutRestAlert').classList.toggle('hidden', !isRest);
+      document.getElementById('workoutInputsArea').classList.toggle('hidden', isRest);
+      changeWorkoutState(val);
     }
 
-    function calcPushups() {
-      const s = parseInt(document.getElementById('w_push_sets').value) || 0;
-      const r = parseInt(document.getElementById('w_push_reps').value) || 0;
-      document.getElementById('totalPushupsBadge').innerText = `Total: ${s * r}`;
+    function calcReps() {
+      const ps = parseInt(document.getElementById('w_push_sets').value) || 0;
+      const pr = parseInt(document.getElementById('w_push_reps').value) || 0;
+      document.getElementById('totalPushupsBadge').innerText = `Total: ${ps * pr}`;
+
+      const ss = parseInt(document.getElementById('w_squat_sets').value) || 0;
+      const sr = parseInt(document.getElementById('w_squat_reps').value) || 0;
+      document.getElementById('totalSquatsBadge').innerText = `Total: ${ss * sr}`;
     }
 
-    function calcSquats() {
-      const s = parseInt(document.getElementById('w_squat_sets').value) || 0;
-      const r = parseInt(document.getElementById('w_squat_reps').value) || 0;
-      document.getElementById('totalSquatsBadge').innerText = `Total: ${s * r}`;
-    }
-
-    function saveWorkoutLog() {
-      const status = document.getElementById('workoutPageStatus').value;
+    function saveWorkoutPerformance() {
+      const status = document.getElementById('workoutPageSelect').value;
       const pushSets = parseInt(document.getElementById('w_push_sets').value) || 0;
       const pushReps = parseInt(document.getElementById('w_push_reps').value) || 0;
       const squatSets = parseInt(document.getElementById('w_squat_sets').value) || 0;
@@ -711,60 +878,31 @@
         pushups: status === 'completed' ? (pushSets * pushReps) : 0,
         squats: status === 'completed' ? (squatSets * squatReps) : 0,
         plank: status === 'completed' ? document.getElementById('w_plank').value : '',
-        runDist: status === 'completed' ? document.getElementById('w_run_dist').value : '',
-        other: status === 'completed' ? document.getElementById('w_other').value : ''
+        runDist: status === 'completed' ? document.getElementById('w_run_dist').value : ''
       };
 
-      appState.workouts = appState.workouts.filter(w => w.date !== today);
+      appState.workouts = (appState.workouts || []).filter(w => w.date !== today);
       appState.workouts.unshift(log);
-      setDailyWorkoutStatus(status);
-      renderWorkoutHistory();
-      alert('ওয়ার্কআউট ডাটা সেভ হয়েছে!');
+      changeWorkoutState(status);
+      alert('ওয়ার্কআউট পারফর্মেন্স সেভ হয়েছে!');
     }
 
-    function renderWorkoutHistory() {
-      const tbody = document.getElementById('workoutHistoryTableBody');
-      tbody.innerHTML = '';
-
-      (appState.workouts || []).slice(0, 7).forEach((w, idx) => {
-        const prev = appState.workouts[idx + 1];
-        let diff = '—';
-        if (w.status === 'completed' && prev && prev.status === 'completed' && prev.pushups) {
-          const delta = w.pushups - prev.pushups;
-          diff = delta >= 0 ? `<span class="text-emerald-400">+${delta} push-ups</span>` : `<span class="text-rose-400">${delta} push-ups</span>`;
-        }
-
-        const tr = document.createElement('tr');
-        tr.className = 'border-b border-slate-800/60';
-        tr.innerHTML = `
-          <td class="py-2 text-slate-400 font-mono">${w.date}</td>
-          <td class="py-2 font-bold text-[10px] ${w.status === 'completed' ? 'text-emerald-400' : w.status === 'rest' ? 'text-sky-400' : 'text-rose-400'}">${w.status.toUpperCase()}</td>
-          <td class="py-2">${w.pushups || '—'}</td>
-          <td class="py-2">${w.squats || '—'}</td>
-          <td class="py-2">${w.plank || (w.runDist ? w.runDist + ' km' : '—')}</td>
-          <td class="py-2 text-[11px]">${diff}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function loadWorkoutData() {
+    function loadWorkoutValues() {
       const d = appState.days[today] || {};
       const st = d.workoutStatus || 'completed';
-      document.getElementById('workoutPageStatus').value = st;
-      handleWorkoutStatusChange(st);
+      document.getElementById('workoutPageSelect').value = st;
+      handleWorkoutSelect(st);
       document.getElementById('stepInput').value = d.steps || '';
       calculateSteps();
-      renderWorkoutHistory();
     }
 
     // --- TRADING LOG ---
-    function toggleEmotionalNote() {
-      const checked = document.getElementById('tr_emotional').checked;
-      document.getElementById('tr_emotional_box').classList.toggle('hidden', !checked);
+    function toggleEmotionalBox() {
+      const ch = document.getElementById('tr_emotional').checked;
+      document.getElementById('tr_emotional_box').classList.toggle('hidden', !ch);
     }
 
-    function saveTradingLog() {
+    function saveTradingJournal() {
       const entry = {
         date: today,
         time: document.getElementById('tr_time').value,
@@ -773,121 +911,137 @@
         emotionalReason: document.getElementById('tr_emotional_reason').value,
         learningTime: document.getElementById('tr_learn_time').value,
         marketLesson: document.getElementById('tr_market_lesson').value,
-        mistake: document.getElementById('tr_mistake').value,
         tomorrow: document.getElementById('tr_tomorrow').value
       };
 
-      appState.tradings = appState.tradings.filter(t => t.date !== today);
+      appState.tradings = (appState.tradings || []).filter(t => t.date !== today);
       appState.tradings.unshift(entry);
       saveState(appState);
-      renderTradingHistory();
+      renderTradingLogs();
       alert('ট্রেডিং জার্নাল সংরক্ষিত হয়েছে!');
     }
 
-    function renderTradingHistory() {
-      const list = document.getElementById('tradingHistoryList');
-      list.innerHTML = '';
+    function renderTradingLogs() {
+      const con = document.getElementById('tradingHistoryContainer');
+      con.innerHTML = '';
       (appState.tradings || []).slice(0, 5).forEach(t => {
-        const item = document.createElement('div');
-        item.className = 'bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1';
-        item.innerHTML = `
+        const card = document.createElement('div');
+        card.className = 'bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-1';
+        card.innerHTML = `
           <div class="flex justify-between items-center font-bold">
             <span class="text-slate-400 font-mono">${t.date}</span>
-            <span class="${t.emotional ? 'text-rose-400' : 'text-emerald-400'}">${t.emotional ? '⚠️ Emotional Trade' : '✓ Disciplined'}</span>
+            <span class="${t.emotional ? 'text-rose-400' : 'text-emerald-400'}">${t.emotional ? '⚠️ FOMO / Emotional' : '✓ Disciplined'}</span>
           </div>
           <p class="text-slate-300">Trades: ${t.tradesCount} | Time: ${t.time || '—'} | Learn: ${t.learningTime || '—'}</p>
           ${t.marketLesson ? `<p class="text-[11px] text-sky-300">💡 ${t.marketLesson}</p>` : ''}
         `;
-        list.appendChild(item);
+        con.appendChild(card);
       });
     }
 
-    function loadTradingData() {
-      const current = (appState.tradings || []).find(t => t.date === today);
-      if (current) {
-        document.getElementById('tr_time').value = current.time || '';
-        document.getElementById('tr_count').value = current.tradesCount || '';
-        document.getElementById('tr_emotional').checked = !!current.emotional;
-        document.getElementById('tr_emotional_reason').value = current.emotionalReason || '';
-        document.getElementById('tr_learn_time').value = current.learningTime || '';
-        document.getElementById('tr_market_lesson').value = current.marketLesson || '';
-        document.getElementById('tr_mistake').value = current.mistake || '';
-        document.getElementById('tr_tomorrow').value = current.tomorrow || '';
-        toggleEmotionalNote();
+    function loadTradingValues() {
+      const cur = (appState.tradings || []).find(t => t.date === today);
+      if (cur) {
+        document.getElementById('tr_time').value = cur.time || '';
+        document.getElementById('tr_count').value = cur.tradesCount || '';
+        document.getElementById('tr_emotional').checked = !!cur.emotional;
+        document.getElementById('tr_emotional_reason').value = cur.emotionalReason || '';
+        document.getElementById('tr_learn_time').value = cur.learningTime || '';
+        document.getElementById('tr_market_lesson').value = cur.marketLesson || '';
+        document.getElementById('tr_tomorrow').value = cur.tomorrow || '';
+        toggleEmotionalBox();
       }
-      renderTradingHistory();
+      renderTradingLogs();
     }
 
-    // --- WEEKLY SUMMARY & HISTORY ---
-    function renderWeeklySummary() {
-      const daysContainer = document.getElementById('weeklyDaysBreakdown');
-      daysContainer.innerHTML = '';
+    // --- ⭐ WEEKLY PROGRESS & ALL HISTORY RENDERER ⭐ ---
+    function renderWeeklyAndHistory() {
+      // 1. Weekly Breakdown (Last 7 Days)
+      const weeklyList = document.getElementById('weeklyDaysList');
+      weeklyList.innerHTML = '';
 
       let totalScores = 0;
-      let workoutDays = 0;
-      let restDays = 0;
-      let totalSteps = 0;
+      let wkDone = 0;
+      let restDone = 0;
+      let stepsSum = 0;
 
       for (let i = 6; i >= 0; i--) {
-        const dateKey = getPreviousDateKey(i);
-        const day = appState.days[dateKey] || { dailyScore: 0, steps: 0, workoutStatus: 'missed' };
+        const dKey = getDateKeyOffset(i);
+        const dayData = appState.days[dKey] || { dailyScore: 0, steps: 0, workoutStatus: 'missed' };
         
-        const dObj = new Date(dateKey);
-        const dayName = dObj.toLocaleDateString('bn-BD', { weekday: 'short' });
-        const score = day.dailyScore || 0;
+        const dObj = new Date(dKey);
+        const dayName = dObj.toLocaleDateString('en-US', { weekday: 'short' }); // Sat, Sun, Mon...
+        const score = dayData.dailyScore || 0;
         totalScores += score;
-        totalSteps += (day.steps || 0);
+        stepsSum += (dayData.steps || 0);
 
-        if (day.workoutStatus === 'completed') workoutDays++;
-        if (day.workoutStatus === 'rest') restDays++;
+        if (dayData.workoutStatus === 'completed') wkDone++;
+        if (dayData.workoutStatus === 'rest') restDone++;
 
-        const row = document.createElement('div');
-        row.className = 'flex items-center gap-3 bg-slate-950 p-2.5 rounded-xl border border-slate-800/80';
-        row.innerHTML = `
-          <span class="w-16 font-mono text-slate-400 font-bold">${dayName} (${dateKey.slice(5)})</span>
+        const barRow = document.createElement('div');
+        barRow.className = 'flex items-center gap-3 bg-slate-950 p-2.5 rounded-2xl border border-slate-800/80';
+        barRow.innerHTML = `
+          <span class="w-14 font-mono font-bold text-slate-300">${dayName}</span>
+          <span class="text-[10px] text-slate-500 font-mono w-16">${dKey.slice(5)}</span>
           <div class="flex-1 bg-slate-900 rounded-full h-2.5 overflow-hidden">
-            <div class="bg-emerald-500 h-full rounded-full" style="width: ${score}%"></div>
+            <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all" style="width: ${score}%"></div>
           </div>
-          <span class="w-10 text-right font-bold ${score >= 80 ? 'text-emerald-400' : score >= 50 ? 'text-amber-400' : 'text-slate-400'}">${score}%</span>
+          <span class="w-12 text-right font-black ${score >= 80 ? 'text-emerald-400' : score >= 50 ? 'text-amber-400' : 'text-rose-400'}">${score}%</span>
         `;
-        daysContainer.appendChild(row);
+        weeklyList.appendChild(barRow);
       }
 
-      const avgScore = Math.round(totalScores / 7);
-      document.getElementById('weeklyOverallAvg').innerText = `7-Day Avg: ${avgScore}%`;
+      const wkAvg = Math.round(totalScores / 7);
+      document.getElementById('thisWeekOverallScore').innerText = `${wkAvg}%`;
+      document.getElementById('wkAvgText').innerText = `${wkAvg}%`;
+      document.getElementById('wkWkDone').innerText = `${wkDone} Days`;
+      document.getElementById('wkRestDone').innerText = `${restDone} Days`;
+      document.getElementById('wkStepsDone').innerText = stepsSum.toLocaleString();
 
-      document.getElementById('weeklyCardsGrid').innerHTML = `
-        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-          <div class="text-[10px] text-slate-400">Weekly Discipline</div>
-          <div class="text-sm font-bold text-emerald-400">${avgScore}%</div>
-        </div>
-        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-          <div class="text-[10px] text-slate-400">Workout Days</div>
-          <div class="text-sm font-bold text-sky-400">${workoutDays} Days</div>
-        </div>
-        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-          <div class="text-[10px] text-slate-400">Rest Days</div>
-          <div class="text-sm font-bold text-amber-400">${restDays} Days</div>
-        </div>
-        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-          <div class="text-[10px] text-slate-400">Total Steps</div>
-          <div class="text-sm font-bold text-rose-400">${totalSteps.toLocaleString()}</div>
-        </div>
-      `;
+      // 2. Full History Table (All Days Ever Recorded)
+      const tbody = document.getElementById('fullHistoryTableBody');
+      tbody.innerHTML = '';
 
-      document.getElementById('weeklyWorkoutSummary').innerText = `সপ্তাহে Workout সম্পন্ন: ${workoutDays} দিন, রিকভারি/Rest: ${restDays} দিন।`;
-      
-      const weekTrades = (appState.tradings || []).slice(0, 7);
-      const emotionalCount = weekTrades.filter(t => t.emotional).length;
-      document.getElementById('weeklyTradingSummary').innerText = `ট্রেডিং লগ এন্ট্রি: ${weekTrades.length} দিন, Emotional/FOMO ট্রেড: ${emotionalCount} টি।`;
+      const allDates = Object.keys(appState.days).sort().reverse();
+      allDates.forEach(k => {
+        const d = appState.days[k];
+        const dateObj = new Date(k);
+        const dayName = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+
+        let farzC = 0;
+        let sunnahC = 0;
+        if (d.prayers) {
+          farzKeys.forEach(fk => { if (d.prayers[fk]) farzC++; });
+          sunnahKeys.forEach(sk => { if (d.prayers[sk]) sunnahC++; });
+        }
+
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-slate-800/60 hover:bg-slate-900/50';
+        tr.innerHTML = `
+          <td class="py-2.5 font-mono text-slate-400">${k}</td>
+          <td class="py-2.5 font-bold text-slate-300">${dayName}</td>
+          <td class="py-2.5 font-black ${d.dailyScore >= 80 ? 'text-emerald-400' : 'text-amber-400'}">${d.dailyScore || 0}%</td>
+          <td class="py-2.5">${farzC}/5 Farz, ${sunnahC}/5 Sun</td>
+          <td class="py-2.5 font-bold text-[11px] ${d.workoutStatus === 'completed' ? 'text-emerald-400' : d.workoutStatus === 'rest' ? 'text-sky-400' : 'text-slate-500'}">
+            ${(d.workoutStatus || 'missed').toUpperCase()}
+          </td>
+          <td class="py-2.5 font-mono">${(d.steps || 0).toLocaleString()}</td>
+          <td class="py-2.5">
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${d.dailyScore >= 75 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400'}">
+              ${d.dailyScore >= 75 ? 'High Discipline' : 'Needs Focus'}
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
     }
 
-    // --- EXPORT / IMPORT ---
+    // --- BACKUP / RESTORE ---
     function exportData() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+      const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
       const a = document.createElement('a');
-      a.href = dataStr;
-      a.download = `Discipline_OS_Data_${today}.json`;
+      a.href = str;
+      a.download = `Discipline_OS_Full_Backup_${today}.json`;
       a.click();
     }
 
@@ -895,25 +1049,25 @@
       const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = (event) => {
+      reader.onload = (evt) => {
         try {
-          appState = JSON.parse(event.target.result);
+          appState = JSON.parse(evt.target.result);
           saveState(appState);
-          alert('ডাটা সফলভাবে রিস্টোর হয়েছে!');
+          alert('সব ডাটা সফলভাবে রিস্টোর হয়েছে!');
           location.reload();
         } catch (err) {
-          alert('ভুল ফাইল ফরম্যাট!');
+          alert('ফাইলটি সঠিক নয়!');
         }
       };
       reader.readAsText(file);
     }
 
-    // INITIALIZATION
+    // INIT
     window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('currentDateDisplay').innerText = new Date().toLocaleDateString('bn-BD', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+      document.getElementById('currentDateDisplay').innerText = new Date().toLocaleDateString('en-US', {
+        weekday: 'long', year: 'numeric', month: 'short', day: 'numeric'
       });
-      loadDailyData();
+      loadDailyValues();
       lucide.createIcons();
     });
   </script>
